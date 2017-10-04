@@ -1,6 +1,7 @@
 package org.galaxysoft.aquaplannerserver.data
 
 import org.galaxysoft.aquaplannerserver.model.Task
+import org.galaxysoft.aquaplannerserver.web.OK
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import org.springframework.transaction.annotation.Transactional
@@ -20,4 +21,17 @@ class TaskService(private val taskRepository: TaskRepository) {
             req.bodyToMono(Task::class.java).doOnNext { task ->
                 taskRepository.save(task)
             }.then(ok().body(Mono.empty()))
+
+    fun findById(req: ServerRequest) =
+            ok().body(Mono.just(taskRepository.findById(req.pathVariable("id").toInt())))
+
+    fun deleteById(req: ServerRequest) =
+            req.bodyToMono(Task::class.java).doOnNext { task ->
+                taskRepository.delete(task)
+            }.then(ok().body(Mono.just(OK())))
+
+    fun update(req: ServerRequest) =
+            req.bodyToMono(Task::class.java).doOnNext { task ->
+                taskRepository.save(task)
+            }.then(ok().body(Mono.just(OK())))
 }
