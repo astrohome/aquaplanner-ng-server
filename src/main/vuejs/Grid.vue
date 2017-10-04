@@ -1,6 +1,6 @@
 <!-- component template -->
 <template>
-  <table>
+  <table class="table table-hover">
     <thead>
       <tr>
         <th v-for="key in columns"
@@ -41,13 +41,13 @@
         },
         methods: {
             sortBy: function (key) {
-                this.sortKey = key
-                this.sortOrders[key] = this.sortOrders[key] * -1
+                this.sortKey = key;
+                this.sortOrders[key] = this.sortOrders[key] * -1;
             }
         },
         filters: {
             capitalize: function (str) {
-                return str.charAt(0).toUpperCase() + str.slice(1)
+                return str.charAt(0).toUpperCase() + str.slice(1);
             }
         }
     }

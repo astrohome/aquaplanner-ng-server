@@ -7,4 +7,7 @@ import javax.persistence.Table
 
 @Entity
 @Table
-data class Task(@Id @GeneratedValue val id: Int, val channel: Int)
+data class Task(@Id @GeneratedValue val id: Int,
+                val channel: Int,
+                val startPwm: Int?,
+                val endPwm: Int?)

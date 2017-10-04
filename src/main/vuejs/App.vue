@@ -2,8 +2,9 @@
     <div id="app">
         <p>{{ message }}</p>
 
-        <input v-model="id">
         <input v-model="channel">
+        <input v-model="startPwm">
+        <input v-model="endPwm">
         <button v-on:click="createTask">Submit</button>
 
         <tasks-grid
@@ -25,25 +26,35 @@
                 message: 'Hello Vue.js!',
                 id: '',
                 channel: '',
-                gridColumns: ['name', 'power'],
-                gridData: [
-                    { name: 'Chuck Norris', power: Infinity },
-                    { name: 'Bruce Lee', power: 9000 },
-                    { name: 'Jackie Chan', power: 7000 },
-                    { name: 'Jet Li', power: 8000 }
-                ]
+                startPwm: '',
+                endPwm: '',
+                gridColumns: ['id', 'channel', 'startPwm', 'endPwm'],
+                gridData: [  ]
             }
         },
-
+        created() {
+            axios.get('/api/tasks').then((response) =>
+                this.gridData = response.data
+            )
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
         methods: {
             createTask: function () {
-                debugger;
                 axios.post('/api/tasks',
-                    {"id": this.id, "channel": this.channel},
+                    {"id": "", "channel": this.channel, "startPwm": this.startPwm, "endPwm": this.endPwm },
                     {
                         headers: {
                             'Content-type': 'application/json'
                         }
+                    }).then((response) => {
+                        axios.get('/api/tasks').then((response) =>
+                            this.gridData = response.data
+                        )
+                        .catch(function (error) {
+                            console.log(error);
+                        })
                     });
             }
         }
