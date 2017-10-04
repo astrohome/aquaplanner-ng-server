@@ -4,8 +4,8 @@
     <thead>
       <tr>
         <th v-for="key in columns"
-          @click="sortBy(key)"
-          :class="{ active: sortKey == key }">
+            @click="sortBy(key)"
+            :class="{ active: sortKey == key }">
           {{ key | capitalize }}
           <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
           </span>
@@ -29,15 +29,25 @@
             data: Array,
             columns: Array
         },
+        data: function () {
+            var sortOrders = {}
+            this.columns.forEach(function (key) {
+                sortOrders[key] = 1
+            })
+            return {
+                sortKey: '',
+                sortOrders: sortOrders
+            }
+        },
         methods: {
             sortBy: function (key) {
                 this.sortKey = key
                 this.sortOrders[key] = this.sortOrders[key] * -1
             }
         },
-        data() {
-            return {
-                msg: 'Welcome to Your Vue.js App'
+        filters: {
+            capitalize: function (str) {
+                return str.charAt(0).toUpperCase() + str.slice(1)
             }
         }
     }
