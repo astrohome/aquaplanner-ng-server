@@ -6,4 +6,4 @@ import javax.persistence.Table
 
 @Entity
 @Table
-data class Task(@Id val id: Int, val channel: Int)
+data class Task(@Id var id: Int, var channel: Int)

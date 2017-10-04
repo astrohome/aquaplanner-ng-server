@@ -1,1 +1,45 @@
-test test test
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <script src="/js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div id="app">
+    <p>{{ message }}</p>
+
+        <input v-model="id">
+        <input v-model="channel">
+        <button v-on:click="createTask">Submit</button>
+
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!'
+        },
+        methods: {
+            createTask: function () {
+                axios.post('/api/tasks', {
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: { "id": this.id, "channel": this.channel }
+                });
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

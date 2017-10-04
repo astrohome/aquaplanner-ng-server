@@ -18,13 +18,10 @@ class Routes(val taskService: TaskService) {
 
     @Bean
     fun router() = router {
-        accept(TEXT_HTML).nest {
-            GET("/api").nest {
-                accept(APPLICATION_JSON).nest {
-                    GET("/ok", { ok().body(Mono.just(OK("OK"))) })
-                    GET("/tasks", taskService::findAll)
-                }
-            }
+        accept(APPLICATION_JSON).nest {
+            GET("/api/ok", { ok().body(Mono.just(OK("OK"))) })
+                    GET("/api/tasks", taskService::findAll)
+                    POST("/api/tasks", taskService::create)
         }
         resources("/**", ClassPathResource("static/"))
     }
