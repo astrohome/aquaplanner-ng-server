@@ -1,11 +1,26 @@
 <template>
-    <div id="app">
+    <div class="container-fluid" id="app">
         <p>{{ message }}</p>
 
-        <input v-model="channel">
-        <input v-model="startPwm">
-        <input v-model="endPwm">
-        <button v-on:click="createTask">Submit</button>
+        <div class="row">
+            <div class="col-lg-3">
+                <input type="number" class="form-control" max="8" min="1" v-model="channel" placeholder="Channel">
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="number" class="form-control" max="100" min="0" v-model="startPwm">
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="number" class="form-control" max="100" min="0" v-model="endPwm">
+                    <span class="input-group-addon">%</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" v-on:click="createTask">Create new task</button>
+        </div>
+
 
         <tasks-grid
                 :data="gridData"
