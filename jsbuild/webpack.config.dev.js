@@ -6,7 +6,7 @@ config.devtool = '#eval-source-map';
 config.output.publicPath = 'http://localhost:3000/dist/';
 
 config.devServer = {
-    host: '0.0.0.0',
+    host: 'localhost',
     port: 3000,
     historyApiFallback: true,
     noInfo: true,
