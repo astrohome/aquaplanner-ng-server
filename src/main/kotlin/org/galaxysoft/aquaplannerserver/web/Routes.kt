@@ -22,7 +22,7 @@ class Routes(val taskService: TaskService) {
                     GET("/api/tasks/{id}", taskService::findById)
                     DELETE("/api/tasks/{id}", taskService::deleteById)
                     POST("/api/tasks", taskService::create)
-                    PUT("/api/tasks/{id}", taskService::update)
+                    PATCH("/api/tasks/{id}", taskService::update)
         }
         resources("/**", ClassPathResource("static/"))
     }

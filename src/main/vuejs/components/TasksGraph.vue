@@ -3,12 +3,12 @@
     export default Line.extend({
         name: 'tasks-graph',
         props: {
-            data: []
+            points: []
         },
         mounted () {
             // Overwriting base render method with actual data.
             this.renderChart(
-                this.data,
+                this.points,
                 {
                     responsive: true,
                     title:{

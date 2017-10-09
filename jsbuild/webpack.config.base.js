@@ -1,6 +1,16 @@
 const path = require('path');
-require('webpack');
+const webpack = require('webpack');
+require('style-loader');
+require('css-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+
+const rules = {
+    fonts: {
+        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        loader: 'file-loader?name=fonts/[name].[ext]'
+    }
+};
 
 module.exports = {
     entry: './src/main/vuejs/main.js',
@@ -45,7 +55,8 @@ module.exports = {
                 options: {
                     name: '[name].[ext]?[hash]'
                 }
-            }
+            },
+            rules.fonts
         ]
     },
     plugins: [
@@ -53,6 +64,14 @@ module.exports = {
             filename: 'index.html',
             template: 'jsbuild/index.html',
             inject: true
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            "window.jQuery": "jquery",
+            Tether: "tether",
+            "window.Tether": "tether",
+            Popper: ['popper.js', 'default']
         })
     ],
     resolve: {

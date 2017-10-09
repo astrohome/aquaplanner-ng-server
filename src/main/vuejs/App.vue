@@ -1,6 +1,15 @@
 <template>
     <div class="container-fluid" id="app">
-        <p>{{ message }}</p>
+
+        <div>
+            <editable-table-grid :apiUrl="apiUrl"
+                                 :fields="fields"
+                                 :classes="classes"
+                                 :editable="editable"
+                                 :deletable="deletable"
+                                 :creatable="creatable"
+            ></editable-table-grid>
+        </div>
 
         <div class="row">
             <div class="col-lg-1">
@@ -56,11 +65,17 @@
 <script>
     import TasksGrid from './components/TasksGrid.vue'
     import TasksGraph from './components/TasksGraph.vue'
+    import EditableTableGrid from './components/EditableTable.vue'
     import axios from 'axios'
+    import VueRouter from "vue-router"
 
     export default  {
         name: 'app',
-        components:  { 'tasks-grid': TasksGrid, 'tasks-graph': TasksGraph },
+        components:  {
+            'tasks-grid': TasksGrid,
+            'tasks-graph': TasksGraph,
+            'editable-table-grid': EditableTableGrid
+        },
         data() {
             return {
                 message: 'Hello Vue.js!',
@@ -71,7 +86,56 @@
                 startTime: '',
                 endTime: '',
                 gridColumns: ['id', 'channel', 'startPwm', 'endPwm', 'startTime', 'endTime'],
-                gridData: [  ]
+                gridData: [  ],
+                apiUrl: '/api/tasks',
+                classes: 'table table-bordered',
+                editable: true,  // items could be modified
+                creatable: true, // items could be created
+                deletable: true, // items could be deleted
+                fields: [
+                    {
+                        title: 'ID',
+                        titleClass: 'col-lg-1',
+                        name: 'id',
+                        editable: false,
+                        creatable: false
+                    },
+                    {
+                        title: 'Channel',
+                        titleClass: 'col-lg-1',
+                        name: 'channel',
+                        editable: true,
+                        creatable: true
+                    },
+                    {
+                        title: 'Start PWM',
+                        titleClass: 'col-lg-1',
+                        name: 'startPwm',
+                        editable: true,
+                        creatable: true
+                    },
+                    {
+                        title: 'End PWM',
+                        titleClass: 'col-lg-1',
+                        name: 'endPwm',
+                        editable: true,
+                        creatable: true
+                    },
+                    {
+                        title: 'Start time',
+                        titleClass: 'col-lg-1',
+                        name: 'startTime',
+                        editable: true,
+                        creatable: true
+                    },
+                    {
+                        title: 'End time',
+                        titleClass: 'col-lg-1',
+                        name: 'endTime',
+                        editable: true,
+                        creatable: true
+                    }
+                ]
             }
         },
         created() {
