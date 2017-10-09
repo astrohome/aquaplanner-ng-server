@@ -14,7 +14,7 @@ const UserHome = { template: '<div>Home</div>' };
 
 const routes = [
     { path: '/led/tasks', component: App},
-    { path: '/led/home', component: UserHome }
+    { path: '/led/channels', component: UserHome }
     ];
     //{ path: '/led-config', component: LedConfig }
 

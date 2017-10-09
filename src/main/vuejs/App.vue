@@ -8,43 +8,10 @@
                                  :editable="editable"
                                  :deletable="deletable"
                                  :creatable="creatable"
+                                 :channelsUrl="channelsUrl"
             ></editable-table-grid>
         </div>
 
-        <div class="row">
-            <div class="col-lg-1">
-                <input type="number" class="form-control" max="8" min="1" v-model="channel" required placeholder="Channel">
-            </div>
-            <div class="col-lg-1">
-                <div class="input-group">
-                    <input type="number" class="form-control" max="100" min="0" required v-model="startPwm">
-                    <span class="input-group-addon">%</span>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="input-group">
-                    <input type="number" class="form-control" max="100" min="0" required v-model="endPwm">
-                    <span class="input-group-addon">%</span>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="input-group">
-                    <input type="text" required class="form-control" v-model="startTime"/>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="input-group">
-                    <input type="text" required class="form-control" v-model="endTime" />
-                </div>
-            </div>
-            <button class="btn btn-primary" v-on:click="createTask">Create new task</button>
-        </div>
-
-
-        <tasks-grid
-                :data="gridData"
-                :columns="gridColumns">
-        </tasks-grid>
         <tasks-graph :data="{
                   labels: ['January', 'February', 'March'],
                   datasets: [
@@ -63,7 +30,6 @@
 </template>
 
 <script>
-    import TasksGrid from './components/TasksGrid.vue'
     import TasksGraph from './components/TasksGraph.vue'
     import EditableTableGrid from './components/EditableTable.vue'
     import axios from 'axios'
@@ -72,7 +38,6 @@
     export default  {
         name: 'app',
         components:  {
-            'tasks-grid': TasksGrid,
             'tasks-graph': TasksGraph,
             'editable-table-grid': EditableTableGrid
         },
@@ -88,6 +53,7 @@
                 gridColumns: ['id', 'channel', 'startPwm', 'endPwm', 'startTime', 'endTime'],
                 gridData: [  ],
                 apiUrl: '/api/tasks',
+                channelsUrl: '/api/channels',
                 classes: 'table table-bordered',
                 editable: true,  // items could be modified
                 creatable: true, // items could be created
@@ -95,6 +61,7 @@
                 fields: [
                     {
                         title: 'ID',
+                        type: 'text',
                         titleClass: 'col-lg-1',
                         name: 'id',
                         editable: false,
@@ -102,6 +69,7 @@
                     },
                     {
                         title: 'Channel',
+                        type: 'select',
                         titleClass: 'col-lg-1',
                         name: 'channel',
                         editable: true,
@@ -109,6 +77,7 @@
                     },
                     {
                         title: 'Start PWM',
+                        type: 'text',
                         titleClass: 'col-lg-1',
                         name: 'startPwm',
                         editable: true,
@@ -116,6 +85,7 @@
                     },
                     {
                         title: 'End PWM',
+                        type: 'text',
                         titleClass: 'col-lg-1',
                         name: 'endPwm',
                         editable: true,
@@ -123,6 +93,7 @@
                     },
                     {
                         title: 'Start time',
+                        type: 'text',
                         titleClass: 'col-lg-1',
                         name: 'startTime',
                         editable: true,
@@ -130,38 +101,13 @@
                     },
                     {
                         title: 'End time',
+                        type: 'text',
                         titleClass: 'col-lg-1',
                         name: 'endTime',
                         editable: true,
                         creatable: true
                     }
                 ]
-            }
-        },
-        created() {
-            axios.get('/api/tasks').then((response) =>
-                this.gridData = response.data
-            )
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-        methods: {
-            createTask: function () {
-                axios.post('/api/tasks',
-                    {"id": "", "channel": this.channel, "startPwm": this.startPwm, "endPwm": this.endPwm, "startTime": this.startTime, "endTime": this.endTime },
-                    {
-                        headers: {
-                            'Content-type': 'application/json'
-                        }
-                    }).then((response) => {
-                        axios.get('/api/tasks').then((response) =>
-                            this.gridData = response.data
-                        )
-                        .catch(function (error) {
-                            console.log(error);
-                        })
-                    });
             }
         }
     }

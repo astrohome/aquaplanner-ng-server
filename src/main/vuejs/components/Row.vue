@@ -2,9 +2,15 @@
     <tr>
         <template v-for="(field, index) in fields">
             <td>
-                <input type="text" class="form-control"
-                       v-model="item[field.name]" v-if="editMode && field.editable"
+                <input v-if="field.type === 'text' && editMode && field.editable" type="text" class="form-control"
+                       v-model="item[field.name]"
                 >
+                <select v-else-if="field.type === 'select' && editMode && field.editable" v-model="item[field.name]"
+                        class="form-control">
+                    <option v-for="option in channels" v-bind:value="option.value">
+                        {{ option.text }}
+                    </option>
+                </select>
                 <span v-else>{{ item[field.name] }}</span>
             </td>
         </template>
@@ -40,7 +46,7 @@
     import axios from 'axios'
 
     export default {
-        props:['item', 'fields', 'apiUrl', 'editable', 'deletable'],
+        props: ['item', 'channels', 'fields', 'apiUrl', 'editable', 'deletable'],
         data() {
             return {
                 editMode: false,

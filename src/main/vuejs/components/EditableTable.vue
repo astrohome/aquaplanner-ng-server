@@ -17,6 +17,7 @@
                 <row :item="item" :fields="tableFields" :apiUrl="resourceUrl" :deletable="deletable" :editable="editable"
                      v-on:destroy="destroy"
                      v-on:update="update"
+                     :channels="channels"
                 ></row>
             </template>
             </tbody>
@@ -64,13 +65,18 @@
                 type: Boolean,
                 required: false,
                 default: true
+            },
+            channelsUrl: {
+                type: String,
+                required: true
             }
         },
         data() {
             return {
                 tableFields: [],
                 tableData: [],
-                resourceUrl: ''
+                resourceUrl: '',
+                channels: []
             }
         },
         mounted() {
@@ -105,6 +111,7 @@
                         obj = {
                             name: field,
                             title: field,
+                            type: field,
                             titleClass: '',
                             editable: true,
                             creatable: true
@@ -112,8 +119,9 @@
                     } else {
                         obj = {
                             name: field.name,
-                            title: (field.title === undefined) ? field.field.name : field.title,
+                            title: (field.title === undefined) ? field.name : field.title,
                             titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
+                            type: (field.type === undefined) ? 'text' : field.type,
                             editable: (field.editable === undefined) ? true : field.editable,
                             creatable: (field.creatable === undefined) ? true : field.creatable
                         }
@@ -123,6 +131,10 @@
             },
             loadData (success = this.loadSuccess, failed = this.loadFailed) {
                 axios.get(this.apiUrl).then(success, failed);
+                axios.get(this.channelsUrl).then(this.channelLoadSuccess, failed)
+            },
+            channelLoadSuccess (response) {
+                this.channels = response.data;
             },
             loadSuccess (response) {
                 this.tableData = response.data;
