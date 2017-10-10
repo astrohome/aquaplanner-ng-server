@@ -52,7 +52,6 @@
                     {
                         title: 'ID',
                         type: 'text',
-                        titleClass: 'col-lg-1',
                         name: 'id',
                         editable: false,
                         creatable: false
@@ -60,7 +59,6 @@
                     {
                         title: 'Channel',
                         type: 'select',
-                        titleClass: 'col-lg-1',
                         name: 'channel',
                         editable: true,
                         creatable: true
@@ -76,7 +74,6 @@
                     {
                         title: 'End PWM',
                         type: 'text',
-                        titleClass: 'col-lg-1',
                         name: 'endPwm',
                         editable: true,
                         creatable: true
@@ -84,7 +81,6 @@
                     {
                         title: 'Start time',
                         type: 'text',
-                        titleClass: 'col-lg-1',
                         name: 'startTime',
                         editable: true,
                         creatable: true
@@ -92,7 +88,6 @@
                     {
                         title: 'End time',
                         type: 'text',
-                        titleClass: 'col-lg-1',
                         name: 'endTime',
                         editable: true,
                         creatable: true

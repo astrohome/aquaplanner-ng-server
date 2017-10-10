@@ -10,7 +10,7 @@ class TestScheduler {
 
     private val logger = LoggerFactory.getLogger(TestScheduler::class.java)
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 60000)
     fun whatTime() {
         logger.warn(LocalTime.now().toString())
     }

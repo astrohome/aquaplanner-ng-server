@@ -2,7 +2,7 @@
     <div class="row">
         <template v-for="(field, index) in fields">
 
-                <div class="col col-lg-1">
+                <div class="col border-dark col-lg-1">
                     <input v-if="field.type === 'text' && editMode && field.editable" type="text" class="form-control"
                            v-model="item[field.name]"
                     >
@@ -12,10 +12,10 @@
                             {{ option.text }}
                         </option>
                     </select>
-                    <span v-else>{{ item[field.name] }}</span>
+                    <span class="form-control" v-else>{{ item[field.name] }}</span>
                 </div>
         </template>
-        <div class="col" v-if="editable || deletable">
+        <div class="col col-lg-2" v-if="editable || deletable">
             <button type="button" class="btn btn-info"
                     v-on:click="edit" v-if="!editMode && editable"
             >

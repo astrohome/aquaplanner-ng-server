@@ -2,11 +2,14 @@
     <div>
         <div class="row" v-cloak>
             <template v-for="field in tableFields">
-                <div class="col " :id="'_' + field.name"
+                <div class="col col-lg-1" :id="'_' + field.name"
                      :class="[field.titleClass]"
                      v-html="field['title']"
                 ></div>
             </template>
+            <div class="col col-lg-2">
+                Actions
+            </div>
         </div>
 
         <template v-for="(item, index) in tableData">
