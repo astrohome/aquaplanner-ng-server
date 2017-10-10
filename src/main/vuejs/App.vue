@@ -33,7 +33,6 @@
     import TasksGraph from './components/TasksGraph.vue'
     import EditableTableGrid from './components/EditableTable.vue'
     import axios from 'axios'
-    import VueRouter from "vue-router"
 
     export default  {
         name: 'app',
@@ -43,15 +42,6 @@
         },
         data() {
             return {
-                message: 'Hello Vue.js!',
-                id: '',
-                channel: '',
-                startPwm: '',
-                endPwm: '',
-                startTime: '',
-                endTime: '',
-                gridColumns: ['id', 'channel', 'startPwm', 'endPwm', 'startTime', 'endTime'],
-                gridData: [  ],
                 apiUrl: '/api/tasks',
                 channelsUrl: '/api/channels',
                 classes: 'table table-bordered',

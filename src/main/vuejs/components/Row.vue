@@ -1,20 +1,21 @@
 <template>
-    <tr>
+    <div class="row">
         <template v-for="(field, index) in fields">
-            <td>
-                <input v-if="field.type === 'text' && editMode && field.editable" type="text" class="form-control"
-                       v-model="item[field.name]"
-                >
-                <select v-else-if="field.type === 'select' && editMode && field.editable" v-model="item[field.name]"
-                        class="form-control">
-                    <option v-for="option in channels" v-bind:value="option.value">
-                        {{ option.text }}
-                    </option>
-                </select>
-                <span v-else>{{ item[field.name] }}</span>
-            </td>
+
+                <div class="col col-lg-1">
+                    <input v-if="field.type === 'text' && editMode && field.editable" type="text" class="form-control"
+                           v-model="item[field.name]"
+                    >
+                    <select v-else-if="field.type === 'select' && editMode && field.editable" v-model="item[field.name]"
+                            class="form-control">
+                        <option v-for="option in channels" v-bind:value="option.value">
+                            {{ option.text }}
+                        </option>
+                    </select>
+                    <span v-else>{{ item[field.name] }}</span>
+                </div>
         </template>
-        <td v-if="editable || deletable">
+        <div class="col" v-if="editable || deletable">
             <button type="button" class="btn btn-info"
                     v-on:click="edit" v-if="!editMode && editable"
             >
@@ -38,8 +39,8 @@
             >
                 Delete
             </button>
-        </td>
-    </tr>
+        </div>
+    </div>
 </template>
 
 <script>

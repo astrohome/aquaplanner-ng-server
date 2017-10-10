@@ -1,29 +1,25 @@
 <template>
     <div>
-        <table :class="['table', classes]" v-cloak>
-            <thead>
-            <tr>
-                <template v-for="field in tableFields">
-                    <th :id="'_' + field.name"
-                        :class="['table-th', field.titleClass]"
-                        v-html="field['title']"
-                    ></th>
-                </template>
-            </tr>
-            </thead>
-
-            <tbody v-cloak class="vuetable-body">
-            <template v-for="(item, index) in tableData">
-                <row :item="item" :fields="tableFields" :apiUrl="resourceUrl" :deletable="deletable" :editable="editable"
-                     v-on:destroy="destroy"
-                     v-on:update="update"
-                     :channels="channels"
-                ></row>
+        <div class="row" v-cloak>
+            <template v-for="field in tableFields">
+                <div class="col " :id="'_' + field.name"
+                     :class="[field.titleClass]"
+                     v-html="field['title']"
+                ></div>
             </template>
-            </tbody>
-        </table>
+        </div>
+
+        <template v-for="(item, index) in tableData">
+            <row :item="item" :fields="tableFields" :apiUrl="resourceUrl" :deletable="deletable"
+                 :editable="editable"
+                 v-on:destroy="destroy"
+                 v-on:update="update"
+                 :channels="channels"
+            ></row>
+        </template>
         <br>
-        <create-item-form v-if="creatable" :fields="tableFields" :apiUrl="apiUrl" v-on:save="save"></create-item-form>
+        <create-item-form v-if="creatable" :fields="tableFields" :apiUrl="apiUrl"
+                          v-on:save="save"></create-item-form>
     </div>
 </template>
 
@@ -96,7 +92,7 @@
                 this.resourceUrl = this.apiUrl.trim('/');
                 this.resourceUrl = this.apiUrl + '/';
             },
-            normalizeFields () {
+            normalizeFields() {
                 this.tableFields = [];
                 //check fields
                 if (typeof(this.fields) === 'undefined') {
@@ -129,17 +125,17 @@
                     self.tableFields.push(obj)
                 })
             },
-            loadData (success = this.loadSuccess, failed = this.loadFailed) {
+            loadData(success = this.loadSuccess, failed = this.loadFailed) {
                 axios.get(this.apiUrl).then(success, failed);
                 axios.get(this.channelsUrl).then(this.channelLoadSuccess, failed)
             },
-            channelLoadSuccess (response) {
+            channelLoadSuccess(response) {
                 this.channels = response.data;
             },
-            loadSuccess (response) {
+            loadSuccess(response) {
                 this.tableData = response.data;
             },
-            loadFailed (response) {
+            loadFailed(response) {
                 console.error('load-error', response);
             },
             destroy: function (item) {
