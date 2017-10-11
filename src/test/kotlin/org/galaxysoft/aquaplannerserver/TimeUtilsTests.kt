@@ -6,6 +6,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.function.Executable
 import java.time.LocalTime
 
 class TimeUtilsTests {
@@ -17,7 +19,7 @@ class TimeUtilsTests {
         tasks = listOf(
                 LedTask(7, 1, 10, 70, LocalTime.of(9, 0), LocalTime.of(10, 0)),
                 LedTask(8, 2, 10, 70, LocalTime.of(10, 0), LocalTime.of(11, 0)),
-                LedTask(9, 3, 10, 70, LocalTime.of(9, 0), LocalTime.of(11, 0)),
+                LedTask(9, 3, 10, 70, LocalTime.of(9, 0), LocalTime.of(11, 1)),
 
                 LedTask(2, 3, 10, 70, LocalTime.of(23, 31), LocalTime.of(1, 0)),
                 LedTask(3, 3, 10, 70, LocalTime.of(20, 0), LocalTime.of(1, 0)),
@@ -30,9 +32,11 @@ class TimeUtilsTests {
 
     @Test
     fun testBetween() {
-        assertEquals(60, TimeUtils.between(LocalTime.of(9, 0), LocalTime.of(10, 0)))
-        assertEquals(60, TimeUtils.between(LocalTime.of(23, 30), LocalTime.of(0, 30)))
-        assertEquals(120, TimeUtils.between(LocalTime.of(23, 0), LocalTime.of(1, 0)))
+        assertAll("between",
+                Executable { assertEquals(60, TimeUtils.between(LocalTime.of(9, 0), LocalTime.of(10, 0))) },
+                Executable { assertEquals(60, TimeUtils.between(LocalTime.of(23, 30), LocalTime.of(0, 30))) },
+                Executable { assertEquals(120, TimeUtils.between(LocalTime.of(23, 0), LocalTime.of(1, 0))) }
+        )
     }
 
     private fun filterTasks(it: LedTask, now: LocalTime): Boolean {
@@ -59,5 +63,18 @@ class TimeUtilsTests {
         assertEquals(3, list.size)
         assertTrue(list.map { it.id }.containsAll(listOf(2, 3, 5)))
     }
+
+    @Test
+    fun testNoTasks() {
+        val list = tasks.filter { filterTasks(it, LocalTime.of(15, 15)) }
+        assertEquals(0, list.size)
+    }
+
+    @Test
+    fun testTheLastMinuteOfTask() {
+        val list = tasks.filter { filterTasks(it, LocalTime.of(11, 1)) }
+        assertEquals(1, list.size)
+    }
+
 
 }

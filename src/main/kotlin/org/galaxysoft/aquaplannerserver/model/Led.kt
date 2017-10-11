@@ -18,12 +18,12 @@ data class LedTask(@Id @GeneratedValue val id: Int,
                    @JsonFormat(pattern = "HH:mm")
                    val endTime: LocalTime)
 
-enum class PhysicalChannel {
+enum class LedPhysicalChannel {
     C1,C2,C3,C4,C5,C6,C7,C8,C9
 }
 
 @Entity
 @Table
 data class LedChannel(@Id @GeneratedValue val value: Int,
-                val text: String?,
-                val channel: PhysicalChannel)
+                      val text: String?,
+                      val channel: LedPhysicalChannel)
