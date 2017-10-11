@@ -1,5 +1,6 @@
 package org.galaxysoft.aquaplannerserver
 
+import org.galaxysoft.aquaplannerserver.model.LedPhysicalChannel
 import org.galaxysoft.aquaplannerserver.model.LedTask
 import org.galaxysoft.aquaplannerserver.util.TimeUtils
 import org.junit.Assert.assertEquals
@@ -17,16 +18,16 @@ class TimeUtilsTests {
     @Before
     fun setup() {
         tasks = listOf(
-                LedTask(7, 1, 10, 70, LocalTime.of(9, 0), LocalTime.of(10, 0)),
-                LedTask(8, 2, 10, 70, LocalTime.of(10, 0), LocalTime.of(11, 0)),
-                LedTask(9, 3, 10, 70, LocalTime.of(9, 0), LocalTime.of(11, 1)),
+                LedTask(7, LedPhysicalChannel.C1, 10, 70, LocalTime.of(9, 0), LocalTime.of(10, 0)),
+                LedTask(8, LedPhysicalChannel.C1, 10, 70, LocalTime.of(10, 0), LocalTime.of(11, 0)),
+                LedTask(9, LedPhysicalChannel.C1, 10, 70, LocalTime.of(9, 0), LocalTime.of(11, 1)),
 
-                LedTask(2, 3, 10, 70, LocalTime.of(23, 31), LocalTime.of(1, 0)),
-                LedTask(3, 3, 10, 70, LocalTime.of(20, 0), LocalTime.of(1, 0)),
-                LedTask(4, 3, 10, 70, LocalTime.of(23, 0), LocalTime.of(23, 20)),
+                LedTask(2, LedPhysicalChannel.C1, 10, 70, LocalTime.of(23, 31), LocalTime.of(1, 0)),
+                LedTask(3, LedPhysicalChannel.C1, 10, 70, LocalTime.of(20, 0), LocalTime.of(1, 0)),
+                LedTask(4, LedPhysicalChannel.C1, 10, 70, LocalTime.of(23, 0), LocalTime.of(23, 20)),
 
-                LedTask(5, 3, 10, 70, LocalTime.of(23, 0), LocalTime.of(5, 20)),
-                LedTask(6, 3, 10, 70, LocalTime.of(21, 0), LocalTime.of(21, 5))
+                LedTask(5, LedPhysicalChannel.C1, 10, 70, LocalTime.of(23, 0), LocalTime.of(5, 20)),
+                LedTask(6, LedPhysicalChannel.C1, 10, 70, LocalTime.of(21, 0), LocalTime.of(21, 5))
         )
     }
 

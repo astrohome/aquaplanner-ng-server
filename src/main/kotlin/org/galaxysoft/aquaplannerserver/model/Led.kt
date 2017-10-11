@@ -10,7 +10,7 @@ import javax.persistence.Table
 @Entity
 @Table
 data class LedTask(@Id @GeneratedValue val id: Int,
-                   val channel: Int,
+                   val channel: LedPhysicalChannel,
                    val startPwm: Int,
                    val endPwm: Int,
                    @JsonFormat(pattern = "HH:mm")
@@ -25,5 +25,5 @@ enum class LedPhysicalChannel {
 @Entity
 @Table
 data class LedChannel(@Id @GeneratedValue val value: Int,
-                      val text: String?,
+                      val text: String,
                       val channel: LedPhysicalChannel)

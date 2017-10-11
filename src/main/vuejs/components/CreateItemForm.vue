@@ -8,12 +8,26 @@
         <div v-if="create" class="row">
             <div v-for="(field, index) in fields">
                 <div>
-                    <div class="form-group" v-if="field.creatable">
+                    <div class="form-group form-inline" v-if="field.creatable">
                         <label :for="field.name">{{ field.title }}</label>
                         <input type="text" class="form-control"
                                v-model="createForm[field.name]"
                                :id="field.name"
                         >
+
+                        <input v-if="(field.type === 'text')" class="form-control"
+                               v-model="createForm[field.name]" type="text"
+                        >
+                        <input v-else-if="(field.type === 'number')" class="form-control"
+                               v-model="createForm[field.name]" type="number"
+                        >
+                        <select v-else-if="field.type === 'select'" class="form-control"
+                                v-model="createForm[field.name]">
+                            <option v-for="option in channels" :selected="option.id == createForm[field.name]"
+                                    v-bind:value="option.channel">
+                                {{ option.text }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -32,6 +46,10 @@
             },
             apiUrl: {
                 type: String,
+                required: true
+            },
+            channels: {
+                type: Array,
                 required: true
             }
         },

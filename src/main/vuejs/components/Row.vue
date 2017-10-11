@@ -6,18 +6,18 @@
 
                 <input v-if="(field.type === 'text')" class="form-control"
                        v-model="item[field.name]" type="text" :disabled="!editMode || !field.editable"
-                    >
+                >
                 <input v-else-if="(field.type === 'number')" class="form-control"
                        v-model="item[field.name]" type="number" :disabled="!editMode || !field.editable"
                 >
                 <select v-else-if="field.type === 'select'" class="form-control"
                         v-model="item[field.name]" :disabled="!editMode || !field.editable">
-                    <option v-for="option in channels" :selected="option.id == item[field.name]"
-                            v-bind:value="option.value">
-                            {{ option.text }}
-                        </option>
-                    </select>
-                </div>
+                    <option v-for="option in channels" :selected="option.channel == item[field.name]"
+                            v-bind:value="option.channel">
+                        {{ option.text }}
+                    </option>
+                </select>
+            </div>
         </template>
         <div class="col col-md-2" v-if="editable || deletable">
             <button type="button" class="btn btn-info"

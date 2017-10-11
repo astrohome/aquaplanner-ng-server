@@ -7,7 +7,7 @@
                      v-html="field['title']"
                 ></div>
             </template>
-            <div class="col col-md-3">
+            <div class="col col-md-2">
                 Actions
             </div>
         </div>
@@ -21,7 +21,7 @@
             ></row>
         </template>
         <br>
-        <create-item-form v-if="creatable" :fields="tableFields" :apiUrl="apiUrl"
+        <create-item-form v-if="creatable" :channels="channels" :fields="tableFields" :apiUrl="apiUrl"
                           v-on:save="save"></create-item-form>
     </div>
 </template>

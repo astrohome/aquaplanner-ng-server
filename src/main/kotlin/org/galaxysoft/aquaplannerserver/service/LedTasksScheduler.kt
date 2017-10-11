@@ -22,8 +22,8 @@ class LedTasksScheduler(val ledTaskRepository: LedTaskRepository) {
                 .associateBy({ it.channel }, { PwmCalculatorService.calcCurrentPwm(it, now) })
 
         LedPhysicalChannel.values().forEach {
-            if (activeTasks.containsKey(it.ordinal)) {
-                logger.info("Setting PWM ${activeTasks[it.ordinal + 1]} for ${it.ordinal + 1} channel")
+            if (activeTasks.containsKey(it)) {
+                logger.info("Setting PWM ${activeTasks[it]} for ${it.ordinal + 1} channel")
             } else {
                 logger.info("No tasks for ${it.ordinal + 1} channel")
             }
