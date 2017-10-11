@@ -1,21 +1,12 @@
 package org.galaxysoft.aquaplannerserver
 
-import junit.framework.Assert.assertEquals
 import org.galaxysoft.aquaplannerserver.model.LedTask
 import org.galaxysoft.aquaplannerserver.service.PwmCalculatorService
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.test.context.junit4.SpringRunner
 import java.time.LocalTime
 
-@RunWith(SpringRunner::class)
 class PwmCalculatorServiceTests {
-
-    @Test
-    fun testBetween() {
-        assertEquals(60, PwmCalculatorService.between(LocalTime.of(9,0), LocalTime.of(10, 0)))
-        assertEquals(60, PwmCalculatorService.between(LocalTime.of(23,30), LocalTime.of(0, 30)))
-    }
 
     @Test
     fun testPwmCalculation1() {

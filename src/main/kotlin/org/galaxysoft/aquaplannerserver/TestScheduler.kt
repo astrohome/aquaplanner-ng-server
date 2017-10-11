@@ -1,11 +1,11 @@
 package org.galaxysoft.aquaplannerserver
 
 import org.galaxysoft.aquaplannerserver.data.LedTaskRepository
-import org.galaxysoft.aquaplannerserver.model.LedTask
+import org.galaxysoft.aquaplannerserver.service.PwmCalculatorService
+import org.galaxysoft.aquaplannerserver.util.TimeUtils.isInInterval
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import java.time.Duration
 import java.time.LocalTime
 
 @Component
@@ -18,8 +18,8 @@ class TestScheduler(val ledTaskRepository: LedTaskRepository) {
         val now = LocalTime.now()
         val ledTasks = ledTaskRepository.findAll()
 
-        ledTasks.filter { it.startTime <= now && it.endTime >= now }
-                .map { it.channel to (it.startPwm - it.endPwm)}
+        ledTasks.filter { isInInterval(it.startTime, it.endTime, now) }
+                .map { it.channel to PwmCalculatorService.calcCurrentPwm(it, now) }
     }
 
 
