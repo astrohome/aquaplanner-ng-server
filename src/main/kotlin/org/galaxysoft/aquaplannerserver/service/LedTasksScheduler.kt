@@ -13,7 +13,7 @@ class LedTasksScheduler(val ledTaskRepository: LedTaskRepository) {
 
     private val logger = LoggerFactory.getLogger(LedTasksScheduler::class.java)
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 10000)
     fun whatTime() {
         val now = LocalTime.now()
         val ledTasks = ledTaskRepository.findAll()

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
+import Channel from './components/channels/Channel.vue'
 import 'bootstrap'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -10,11 +11,9 @@ Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
 
-const UserHome = { template: '<div>Home</div>' };
-
 const routes = [
     { path: '/led/tasks', component: App},
-    { path: '/led/channels', component: UserHome }
+    {path: '/led/channels', component: Channel}
     ];
     //{ path: '/led-config', component: LedConfig }
 

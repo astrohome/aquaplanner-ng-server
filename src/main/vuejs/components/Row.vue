@@ -2,20 +2,24 @@
     <div class="row">
         <template v-for="(field, index) in fields">
 
-                <div class="col border-dark col-lg-1">
-                    <input v-if="field.type === 'text' && editMode && field.editable" type="text" class="form-control"
-                           v-model="item[field.name]"
+            <div v-if="(!field.id)" class="col col-md-2">
+
+                <input v-if="(field.type === 'text')" class="form-control"
+                       v-model="item[field.name]" type="text" :disabled="!editMode || !field.editable"
                     >
-                    <select v-else-if="field.type === 'select' && editMode && field.editable" v-model="item[field.name]"
-                            class="form-control">
-                        <option v-for="option in channels" v-bind:value="option.value">
+                <input v-else-if="(field.type === 'number')" class="form-control"
+                       v-model="item[field.name]" type="number" :disabled="!editMode || !field.editable"
+                >
+                <select v-else-if="field.type === 'select'" class="form-control"
+                        v-model="item[field.name]" :disabled="!editMode || !field.editable">
+                    <option v-for="option in channels" :selected="option.id == item[field.name]"
+                            v-bind:value="option.value">
                             {{ option.text }}
                         </option>
                     </select>
-                    <span class="form-control" v-else>{{ item[field.name] }}</span>
                 </div>
         </template>
-        <div class="col col-lg-2" v-if="editable || deletable">
+        <div class="col col-md-2" v-if="editable || deletable">
             <button type="button" class="btn btn-info"
                     v-on:click="edit" v-if="!editMode && editable"
             >
@@ -31,7 +35,7 @@
             <button type="button" class="btn btn-primary"
                     v-on:click="update(item, editForm)" v-if="editMode && editable"
             >
-                update
+                Update
             </button>
 
             <button type="button" class="btn btn-danger"

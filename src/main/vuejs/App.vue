@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid" id="app">
+    <div class="container-fluid">
 
         <div>
             <editable-table-grid :apiUrl="apiUrl"
@@ -34,9 +34,9 @@
     import EditableTableGrid from './components/EditableTable.vue'
     import axios from 'axios'
 
-    export default  {
+    export default {
         name: 'app',
-        components:  {
+        components: {
             'tasks-graph': TasksGraph,
             'editable-table-grid': EditableTableGrid
         },
@@ -53,6 +53,7 @@
                         title: 'ID',
                         type: 'text',
                         name: 'id',
+                        id: true,
                         editable: false,
                         creatable: false
                     },
@@ -65,15 +66,14 @@
                     },
                     {
                         title: 'Start PWM',
-                        type: 'text',
-                        titleClass: 'col-lg-1',
+                        type: 'number',
                         name: 'startPwm',
                         editable: true,
                         creatable: true
                     },
                     {
                         title: 'End PWM',
-                        type: 'text',
+                        type: 'number',
                         name: 'endPwm',
                         editable: true,
                         creatable: true

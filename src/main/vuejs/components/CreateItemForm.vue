@@ -7,7 +7,7 @@
         </div>
         <div v-if="create" class="row">
             <div v-for="(field, index) in fields">
-                <div class="">
+                <div>
                     <div class="form-group" v-if="field.creatable">
                         <label :for="field.name">{{ field.title }}</label>
                         <input type="text" class="form-control"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import axios from 'axios'
 
     export default {
         props: {

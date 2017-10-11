@@ -2,12 +2,12 @@
     <div>
         <div class="row" v-cloak>
             <template v-for="field in tableFields">
-                <div class="col col-lg-1" :id="'_' + field.name"
+                <div v-if="!field.id" class="col col-md-2" :id="'_' + field.name"
                      :class="[field.titleClass]"
                      v-html="field['title']"
                 ></div>
             </template>
-            <div class="col col-lg-2">
+            <div class="col col-md-3">
                 Actions
             </div>
         </div>
@@ -112,6 +112,7 @@
                             title: field,
                             type: field,
                             titleClass: '',
+                            id: false,
                             editable: true,
                             creatable: true
                         }
@@ -121,6 +122,7 @@
                             title: (field.title === undefined) ? field.name : field.title,
                             titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
                             type: (field.type === undefined) ? 'text' : field.type,
+                            id: (field.id === undefined) ? false : field.id,
                             editable: (field.editable === undefined) ? true : field.editable,
                             creatable: (field.creatable === undefined) ? true : field.creatable
                         }
