@@ -1,40 +1,27 @@
+// https://eslint.org/docs/user-guide/configuring
+
 module.exports = {
-	extends: ['google', 'eslint:recommended'],
-	parserOptions: {
-		ecmaVersion: 6,
-		sourceType: 'module',
-	},
-	rules: {
-		'no-var': 0,
-		'no-console': 0,
-		'prefer-rest-params': 0,
-		'max-len': ['error', 120],
-		'comma-dangle': 0,
-		'require-jsdoc': 0,
-		'padded-blocks': 0,
-		'prefer-spread': 0,
-		'no-use-before-define': 'error',
-		'no-undef-init': 'error',
-		'semi': ['error', 'always'],
-		'quotes': ['error', 'single'],
-	},
-	env: {
-		browser: true,
-		node: true,
-		jasmine: true,
-	},
-	globals: {
-		jQuery: true,
-		$: true,
-		angular: true,
-		inject: true,
-		browser: true,
-		element: true,
-		by: true,
-		getJSONFixture: true,
-		FastClick: true,
-		io: true,
-		Promise: true,
-		Hashes: true,
-	}
-};
+  root: true,
+  parser: 'babel-eslint',
+  parserOptions: {
+    sourceType: 'module'
+  },
+  env: {
+    browser: true,
+  },
+  // https://github.com/standard/standard/blob/master/docs/RULES-en.md
+  extends: 'standard',
+  // required to lint *.vue files
+  plugins: [
+    'html'
+  ],
+  // add your custom rules here
+  'rules': {
+    // allow paren-less arrow functions
+    'arrow-parens': 0,
+    // allow async-await
+    'generator-star-spacing': 0,
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+  }
+}

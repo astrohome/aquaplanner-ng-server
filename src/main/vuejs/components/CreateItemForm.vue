@@ -36,48 +36,51 @@
 </template>
 
 <script>
-    import axios from 'axios'
+import axios from 'axios'
 
-    export default {
-        props: {
-            fields: {
-                type: Array,
-                required: true
-            },
-            apiUrl: {
-                type: String,
-                required: true
-            },
-            channels: {
-                type: Array,
-                required: true
-            }
-        },
-        data() {
-            return {
-                create: false,
-                createForm: {}
-            }
-        },
-        methods: {
-            edit: function () {
-                this.create = true;
-            },
-            save: function () {
-                // send required to store a new item
-                axios.post(this.apiUrl, this.createForm).then(response => {
-                    //trigger event to collection
-                    this.$emit('save', response.data);
-                    // clear form
-                    this.cancel();
-                }, () => {
-                    alert('Invalid data');
-                });
-            },
-            cancel: function () {
-                this.create = false;
-                this.createForm = {};
-            }
-        }
+export default {
+  props: {
+    fields: {
+      type: Array,
+      required: true
+    },
+    apiUrl: {
+      type: String,
+      required: true
+    },
+    channels: {
+      type: Array,
+      required: true
     }
+  },
+  data () {
+    return {
+      create: false,
+      createForm: {}
+    }
+  },
+  methods: {
+    edit: function () {
+      this.create = true
+    },
+    save: function () {
+      // send required to store a new item
+      axios.post(this.apiUrl, this.createForm).then(
+        response => {
+          // trigger event to collection
+          this.$emit('save', response.data)
+          // clear form
+          this.cancel()
+        },
+        () => {
+          alert('Invalid data')
+        }
+      )
+    },
+    cancel: function () {
+      this.create = false
+      this.createForm = {}
+    }
+  }
+}
 </script>
