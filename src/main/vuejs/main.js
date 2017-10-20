@@ -2,12 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
 import Channel from './components/channels/Channel.vue'
-import 'bootstrap'
+import Buefy from 'buefy'
+import 'buefy/lib/buefy.css'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/main.css'
 
 Vue.use(VueRouter);
+Vue.use(Buefy);
 
 Vue.config.productionTip = false;
 
@@ -15,7 +16,6 @@ const routes = [
     { path: '/led/tasks', component: App},
     {path: '/led/channels', component: Channel}
     ];
-    //{ path: '/led-config', component: LedConfig }
 
 
 const router = new VueRouter({

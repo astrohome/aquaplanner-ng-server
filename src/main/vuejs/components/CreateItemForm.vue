@@ -1,33 +1,33 @@
 <template>
     <div>
         <div class="row">
-            <button class="btn btn-success" v-on:click="edit" v-if="!create">Add</button>
-            <button class="btn btn-success" v-on:click="save" v-if="create">Save</button>
-            <button class="btn btn-primary" v-on:click="cancel" v-if="create">Cancel</button>
+            <button class="button" v-on:click="edit" v-if="!create">Add</button>
+            <button class="button" v-on:click="save" v-if="create">Save</button>
+            <button class="button" v-on:click="cancel" v-if="create">Cancel</button>
         </div>
         <div v-if="create" class="row">
             <div v-for="(field, index) in fields">
                 <div>
                     <div class="form-group form-inline" v-if="field.creatable">
                         <label :for="field.name">{{ field.title }}</label>
-                        <input type="text" class="form-control"
+                        <b-input type="text" class="form-control"
                                v-model="createForm[field.name]"
                                :id="field.name"
-                        >
+                        ></b-input>
 
-                        <input v-if="(field.type === 'text')" class="form-control"
+                        <b-input v-if="(field.type === 'text')" class="form-control"
                                v-model="createForm[field.name]" type="text"
-                        >
-                        <input v-else-if="(field.type === 'number')" class="form-control"
+                        ></b-input>
+                        <b-input v-else-if="(field.type === 'number')" class="form-control"
                                v-model="createForm[field.name]" type="number"
-                        >
-                        <select v-else-if="field.type === 'select'" class="form-control"
+                        ></b-input>
+                        <b-select v-else-if="field.type === 'select'" class="form-control"
                                 v-model="createForm[field.name]">
-                            <option v-for="option in channels" :selected="option.id == createForm[field.name]"
+                            <option v-for="option in channels" :key="option.id" :selected="option.id == createForm[field.name]"
                                     v-bind:value="option.channel">
                                 {{ option.text }}
                             </option>
-                        </select>
+                        </b-select>
                     </div>
                 </div>
             </div>

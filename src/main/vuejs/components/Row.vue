@@ -2,44 +2,42 @@
     <div class="row">
         <template v-for="(field, index) in fields">
 
-            <div v-if="(!field.id)" class="col col-md-2">
+            <div v-if="(!field.id)">
 
-                <input v-if="(field.type === 'text')" class="form-control"
-                       v-model="item[field.name]" type="text" :disabled="!editMode || !field.editable"
-                >
-                <input v-else-if="(field.type === 'number')" class="form-control"
-                       v-model="item[field.name]" type="number" :disabled="!editMode || !field.editable"
-                >
-                <select v-else-if="field.type === 'select'" class="form-control"
+                <b-input v-if="(field.type === 'text')"
+                       value="item[field.name]" type="text" :disabled="!editMode || !field.editable"
+                ></b-input>
+                <b-input v-else-if="(field.type === 'number')"
+                           value="item[field.name]" type="number" :disabled="!editMode || !field.editable"
+                ></b-input>
+                <b-select placeholder="Select a channel" v-else-if="field.type === 'select'"
                         v-model="item[field.name]" :disabled="!editMode || !field.editable">
-                    <option v-for="option in channels" :selected="option.channel == item[field.name]"
+                    <option v-for="option in channels" :key="option.id" :selected="option.channel == item[field.name]"
                             v-bind:value="option.channel">
                         {{ option.text }}
                     </option>
-                </select>
+                </b-select>
             </div>
         </template>
-        <div class="col col-md-2" v-if="editable || deletable">
-            <button type="button" class="btn btn-info"
-                    v-on:click="edit" v-if="!editMode && editable"
-            >
+        <div v-if="editable || deletable">
+            <button class="button" @click="edit" v-if="!editMode && editable">
                 Edit
             </button>
 
-            <button type="button" class="btn btn-default"
-                    v-on:click="cancelEdit" v-if="editMode && editable"
+            <button class="button"
+                    @click="cancelEdit" v-if="editMode && editable"
             >
                 Cancel
             </button>
 
-            <button type="button" class="btn btn-primary"
-                    v-on:click="update(item, editForm)" v-if="editMode && editable"
+            <button class="button"
+                    @click="update(item, editForm)" v-if="editMode && editable"
             >
                 Update
             </button>
 
-            <button type="button" class="btn btn-danger"
-                    v-on:click="destroy(item)" v-if="!editMode && deletable"
+            <button class="button"
+                    @click="destroy(item)" v-if="!editMode && deletable"
             >
                 Delete
             </button>

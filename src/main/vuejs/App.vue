@@ -11,33 +11,16 @@
                                  :channelsUrl="channelsUrl"
             ></editable-table-grid>
         </div>
-
-        <tasks-graph :data="{
-                  labels: ['January', 'February', 'March'],
-                  datasets: [
-                                    {
-                                        label: 'GitHub Commits',
-                                        backgroundColor: '#f87979',
-                                        data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-                                    }
-                  ]
-        }"
-                     :width="400"
-                     :height="200">
-
-        </tasks-graph>
     </div>
 </template>
 
 <script>
-    import TasksGraph from './components/TasksGraph.vue'
     import EditableTableGrid from './components/EditableTable.vue'
     import axios from 'axios'
 
     export default {
         name: 'app',
         components: {
-            'tasks-graph': TasksGraph,
             'editable-table-grid': EditableTableGrid
         },
         data() {
@@ -97,14 +80,3 @@
         }
     }
 </script>
-
-<style>
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
-    }
-</style>
