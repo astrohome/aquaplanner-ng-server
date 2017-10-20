@@ -6,7 +6,7 @@ import Channel from '../components/channels/Channel.vue'
 Vue.use(Router)
 
 export default new Router({
-//    mode: 'history',
+  mode: 'history',
   routes: [
     {
       path: '/led/tasks',
