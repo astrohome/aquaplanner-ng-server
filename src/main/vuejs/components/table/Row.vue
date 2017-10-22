@@ -12,7 +12,7 @@
                 ></b-input>
                 <b-select placeholder="Select a channel" v-else-if="field.type === 'select'"
                         v-model="item[field.name]" :disabled="!editMode || !field.editable">
-                    <option v-for="option in channels" :key="option.id" :selected="option.channel == item[field.name]"
+                    <option v-for="option in field.options" :key="option.id" :selected="option.channel == item[field.name]"
                             v-bind:value="option.channel">
                         {{ option.text }}
                     </option>
@@ -49,7 +49,7 @@
 import axios from 'axios'
 
 export default {
-  props: ['item', 'channels', 'fields', 'apiUrl', 'editable', 'deletable'],
+  props: ['item', 'fields', 'apiUrl', 'editable', 'deletable'],
   data () {
     return {
       editMode: false,

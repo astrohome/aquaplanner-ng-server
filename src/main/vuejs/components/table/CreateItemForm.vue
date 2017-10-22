@@ -23,7 +23,7 @@
                         ></b-input>
                         <b-select v-else-if="field.type === 'select'" class="form-control"
                                 v-model="createForm[field.name]">
-                            <option v-for="option in channels" :key="option.id" :selected="option.id == createForm[field.name]"
+                            <option v-for="option in field.options" :key="option.id" :selected="option.id == createForm[field.name]"
                                     v-bind:value="option.channel">
                                 {{ option.text }}
                             </option>
@@ -46,10 +46,6 @@ export default {
     },
     apiUrl: {
       type: String,
-      required: true
-    },
-    channels: {
-      type: Array,
       required: true
     }
   },

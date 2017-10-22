@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import EditableTableGrid from './EditableTable.vue'
+import EditableTableGrid from './table/EditableTable.vue'
 
 export default {
   name: 'app',
@@ -43,34 +43,21 @@ export default {
           title: 'Channel',
           type: 'select',
           name: 'channel',
+          apiUrl: '/api/channels',
           editable: true,
           creatable: true
         },
         {
-          title: 'Start PWM',
+          title: 'PWM',
           type: 'number',
-          name: 'startPwm',
+          name: 'pwm',
           editable: true,
           creatable: true
         },
         {
-          title: 'End PWM',
-          type: 'number',
-          name: 'endPwm',
-          editable: true,
-          creatable: true
-        },
-        {
-          title: 'Start time',
+          title: 'At time',
           type: 'text',
-          name: 'startTime',
-          editable: true,
-          creatable: true
-        },
-        {
-          title: 'End time',
-          type: 'text',
-          name: 'endTime',
+          name: 'atTime',
           editable: true,
           creatable: true
         }

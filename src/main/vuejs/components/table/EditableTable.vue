@@ -2,7 +2,7 @@
   <div>
     <div class="row" v-cloak>
       <template v-for="field in tableFields">
-        <div v-if="!field.id" class="col col-md-2" :id="'_' + field.name"
+        <div v-if="!field.id" class="col col-md-2" :key="'_' + field.name" :id="'_' + field.name"
              :class="[field.titleClass]"
              v-html="field['title']"
         ></div>
@@ -17,11 +17,10 @@
            :editable="editable"
            v-on:destroy="destroy"
            v-on:update="update"
-           :channels="channels"
       ></row>
     </template>
     <br>
-    <create-item-form v-if="creatable" :channels="channels" :fields="tableFields" :apiUrl="apiUrl"
+    <create-item-form v-if="creatable" :fields="tableFields" :apiUrl="apiUrl"
                       v-on:save="save"></create-item-form>
   </div>
 </template>
@@ -47,8 +46,7 @@
       },
       classes: {
         type: String,
-        required: false,
-        default: 'table table-grid'
+        required: false
       },
       editable: {
         type: Boolean,
@@ -64,18 +62,13 @@
         type: Boolean,
         required: false,
         default: true
-      },
-      channelsUrl: {
-        type: String,
-        required: true
       }
     },
     data () {
       return {
         tableFields: [],
         tableData: [],
-        resourceUrl: '',
-        channels: []
+        resourceUrl: ''
       }
     },
     mounted () {
@@ -113,6 +106,8 @@
               type: field,
               titleClass: '',
               id: false,
+              options: [],
+              apiUrl: '',
               editable: true,
               creatable: true
             }
@@ -122,7 +117,9 @@
               title: field.title === undefined ? field.name : field.title,
               titleClass: field.titleClass === undefined ? '' : field.titleClass,
               type: field.type === undefined ? 'text' : field.type,
+              apiUrl: field.apiUrl,
               id: field.id === undefined ? false : field.id,
+              options: field.options === undefined ? [] : field.options,
               editable: field.editable === undefined ? true : field.editable,
               creatable: field.creatable === undefined ? true : field.creatable
             }
@@ -131,11 +128,14 @@
         })
       },
       loadData (success = this.loadSuccess, failed = this.loadFailed) {
+        this.tableFields.forEach((field) => {
+          if (field.apiUrl !== undefined) {
+            axios.get(field.apiUrl).then((result) => {
+              field.options = result.data
+            })
+          }
+        })
         axios.get(this.apiUrl).then(success, failed)
-        axios.get(this.channelsUrl).then(this.channelLoadSuccess, failed)
-      },
-      channelLoadSuccess (response) {
-        this.channels = response.data
       },
       loadSuccess (response) {
         this.tableData = response.data
