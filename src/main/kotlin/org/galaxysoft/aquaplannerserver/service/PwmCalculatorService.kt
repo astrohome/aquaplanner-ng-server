@@ -5,10 +5,10 @@ import org.galaxysoft.aquaplannerserver.util.TimeUtils.between
 import java.time.LocalTime
 
 object PwmCalculatorService {
-    fun calcCurrentPwm(ledTask: LedTask, now: LocalTime): Int {
-        val deltaPerMinute = (ledTask.endPwm - ledTask.startPwm).toFloat() /
-                (between(ledTask.startTime, ledTask.endTime))
-        val delta = deltaPerMinute * between(ledTask.startTime, now)
-        return (delta + ledTask.startPwm).toInt()
+  fun calcCurrentPwm(current: LedTask, next: LedTask, now: LocalTime): Int {
+    val deltaPerMinute = (next.pwm - current.pwm).toFloat() /
+      (between(current.atTime, next.atTime))
+    val delta = deltaPerMinute * between(current.atTime, now)
+    return (delta + current.pwm).toInt()
     }
 }

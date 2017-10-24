@@ -11,19 +11,19 @@ import javax.persistence.Table
 @Table
 data class LedTask(@Id @GeneratedValue val id: Int,
                    val channel: LedPhysicalChannel,
-                   val startPwm: Int,
-                   val endPwm: Int,
+                   val pwm: Int,
                    @JsonFormat(pattern = "HH:mm")
-                   val startTime: LocalTime,
-                   @JsonFormat(pattern = "HH:mm")
-                   val endTime: LocalTime)
+                   val atTime: LocalTime)
 
 enum class LedPhysicalChannel {
-    C1,C2,C3,C4,C5,C6,C7,C8,C9
+  C1, C2, C3, C4, C5, C6, C7, C8, C9
 }
+
+data class SelectOption<in ID, out VALUE>(val id: String, val text: String)
 
 @Entity
 @Table
-data class LedChannel(@Id @GeneratedValue val value: Int,
-                      val text: String,
+data class LedChannel(@Id @GeneratedValue val id: Int,
+                      val name: String,
+                      val color: String,
                       val channel: LedPhysicalChannel)

@@ -1,18 +1,7 @@
 package org.galaxysoft.aquaplannerserver
 
-import org.galaxysoft.aquaplannerserver.model.LedPhysicalChannel
-import org.galaxysoft.aquaplannerserver.model.LedTask
-import org.galaxysoft.aquaplannerserver.util.TimeUtils
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
-import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.function.Executable
-import java.time.LocalTime
-
 class TimeUtilsTests {
-
+/*
     private lateinit var tasks: List<LedTask>
 
     @Before
@@ -77,5 +66,5 @@ class TimeUtilsTests {
         assertEquals(1, list.size)
     }
 
-
+*/
 }

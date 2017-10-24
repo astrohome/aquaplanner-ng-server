@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Tasks from '../components/Tasks.vue'
-import Channel from '../components/channels/Channel.vue'
+import Tasks from '../components/led/Tasks.vue'
+import Channel from '../components/led/Channel.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
