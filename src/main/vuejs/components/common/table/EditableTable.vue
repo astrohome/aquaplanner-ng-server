@@ -64,42 +64,42 @@
         default: true
       }
     },
-    data() {
+    data () {
       return {
         tableFields: [],
         tableData: [],
         resourceUrl: ''
       }
     },
-    mounted() {
+    mounted () {
       // get unified fields
-      this.normalizeFields();
+      this.normalizeFields()
       // get unified api url
-      this.normalizeUrl();
+      this.normalizeUrl()
       // load data
       this.loadData()
     },
     methods: {
-      normalizeUrl() {
+      normalizeUrl () {
         if (typeof this.apiUrl === 'undefined') {
-          console.error('You need to provide "api url" prop.');
+          console.error('You need to provide "api url" prop.')
           return
         }
-        this.resourceUrl = this.apiUrl.trim('/');
+        this.resourceUrl = this.apiUrl.trim('/')
         this.resourceUrl = this.apiUrl + '/'
       },
-      normalizeFields() {
-        this.tableFields = [];
+      normalizeFields () {
+        this.tableFields = []
         // check fields
         if (typeof this.fields === 'undefined') {
-          console.error('You need to provide "fields" prop.');
+          console.error('You need to provide "fields" prop.')
           return
         }
-        let self = this;
-        let obj;
+        let self = this
+        // let obj
         // normilize to one style
         this.fields.forEach(function (field, i) {
-          if (typeof field === 'string') {
+          /* if (typeof field === 'string') {
             obj = {
               name: field,
               title: field,
@@ -123,34 +123,34 @@
               editable: field.editable === undefined ? true : field.editable,
               creatable: field.creatable === undefined ? true : field.creatable
             }
-          }
-          self.tableFields.push(obj)
+          } */
+          self.tableFields.push(field)
         })
       },
-      loadData(success = this.loadSuccess, failed = this.loadFailed) {
+      loadData (success = this.loadSuccess, failed = this.loadFailed) {
         this.tableFields.forEach((field) => {
           if (field.apiUrl !== undefined) {
             axios.get(field.apiUrl).then((result) => {
               field.options = result.data
             })
           }
-        });
+        })
         axios.get(this.apiUrl).then(success, failed)
       },
-      loadSuccess(response) {
+      loadSuccess (response) {
         this.tableData = response.data
       },
-      loadFailed(response) {
+      loadFailed (response) {
         console.error('load-error', response)
       },
       destroy: function (item) {
         // destroy from the collection
-        let index = this.tableData.indexOf(item);
+        let index = this.tableData.indexOf(item)
         this.tableData.splice(index, 1)
       },
       update: function (item) {
         // update in the collection
-        let index = this.tableData.indexOf(item);
+        let index = this.tableData.indexOf(item)
         this.tableData[index] = item
       },
       save: function (item) {

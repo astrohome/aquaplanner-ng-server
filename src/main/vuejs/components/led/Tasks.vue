@@ -20,7 +20,7 @@
     components: {
       'editable-table-grid': EditableTableGrid
     },
-    data() {
+    data () {
       return {
         apiUrl: '/api/tasks',
         editable: true, // items could be modified

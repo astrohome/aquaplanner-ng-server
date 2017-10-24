@@ -20,7 +20,7 @@
     components: {
       'editable-table-grid': EditableTableGrid
     },
-    data() {
+    data () {
       return {
         apiUrl: '/api/channels',
         editable: true, // items could be modified
@@ -37,7 +37,7 @@
           },
           {
             title: 'Color',
-            type: 'text',
+            type: 'color',
             name: 'color',
             editable: true,
             creatable: true
@@ -54,6 +54,8 @@
             type: 'select',
             name: 'channel',
             apiUrl: '/api/physical-channels',
+            keyProp: 'id',
+            valueProp: 'text',
             editable: true,
             creatable: true
           }

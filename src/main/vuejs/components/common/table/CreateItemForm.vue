@@ -6,21 +6,24 @@
       <button class="button" v-on:click="cancel" v-if="create">Cancel</button>
     </div>
     <div v-if="create" class="row">
-      <div v-for="(field, index) in fields">
+      <div v-bind:key="field.name" v-for="(field, index) in fields">
         <div>
           <div class="form-group form-inline" v-if="field.creatable">
             <label :for="field.name">{{ field.title }}</label>
-            <b-input v-if="(field.type === 'text')" class="form-control"
+            <b-input v-if="(field.type === 'text')"
                      v-model="createForm[field.name]" type="text"
             ></b-input>
-            <b-input v-else-if="(field.type === 'number')" class="form-control"
+            <b-input v-else-if="(field.type === 'number')"
                      v-model.number="createForm[field.name]" type="number"
             ></b-input>
-            <b-select v-else-if="field.type === 'select'" class="form-control"
+            <div v-else-if="(field.type === 'color')">
+            <color-picker  :change="updateColor"></color-picker>
+              <span>{{ color }}</span>
+            </div>
+            <b-select v-else-if="field.type === 'select'"
                       v-model="createForm[field.name]">
-              <option v-for="option in field.options" :key="option.id" :selected="option.id == createForm[field.name]"
-                      v-bind:value="option.text">
-                {{ option.text }}
+              <option v-for="option in field.options" :key="option[field.keyProp]" :value="option[field.keyProp]" :selected="option[field.keyProp] == createForm[field.name]">
+                {{ option[field.valueProp] }}
               </option>
             </b-select>
           </div>
@@ -32,8 +35,12 @@
 
 <script>
   import axios from 'axios'
+  import ColorPicker from '../color/ColorPicker'
 
   export default {
+    components: {
+      'color-picker': ColorPicker
+    },
     props: {
       fields: {
         type: Array,
@@ -44,13 +51,17 @@
         required: true
       }
     },
-    data() {
+    data () {
       return {
+        color: '',
         create: false,
-        createForm: {}
+        createForm: { }
       }
     },
     methods: {
+      updateColor (event) {
+        this.color = event.color
+      },
       edit: function () {
         this.create = true
       },
@@ -59,7 +70,7 @@
         axios.post(this.apiUrl, this.createForm).then(
           response => {
             // trigger event to collection
-            this.$emit('save', response.data);
+            this.$emit('save', response.data)
             // clear form
             this.cancel()
           },
@@ -69,7 +80,7 @@
         )
       },
       cancel: function () {
-        this.create = false;
+        this.create = false
         this.createForm = {}
       }
     }
