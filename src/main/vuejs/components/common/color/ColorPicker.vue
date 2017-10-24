@@ -1,0 +1,254 @@
+<template>
+  <div>
+    <div v-if="showSelector" class="modal is-active">
+      <div @click="showSelector = false" class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box level">
+          <article class="media level-item">
+            <div class="color-picker__flyout">
+              <div class="color-chip" v-bind:style="{'background': color}">
+                <div class="color-chip__inner">
+                </div>
+              </div>
+              <div class="color-picker__inner">
+                <div class="control" v-bind:style="gradientH" style="background-image: linear-gradient(to right, rgb(253, 50, 50), rgb(253, 253, 50), rgb(50, 253, 50), rgb(50, 253, 253), rgb(50, 50, 253), rgb(253, 50, 253), rgb(253, 50, 50));">
+                  <input type="range" v-model="h" min="0" max="360">
+                </div>
+                <div class="control" v-bind:style="gradientS" style="background-image: linear-gradient(to right, rgb(253, 253, 253), rgb(0, 97, 253));">
+                  <input type="range" v-model="s" min="0" max="100">
+                </div>
+                <div class="control" v-bind:style="gradientL" style="background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(51, 129, 255));">
+                  <input type="range"  v-model="l" min="0" max="100">
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <button class="button is-success" @click="showSelector = false">Close</button>
+      </div>
+      <button class="modal-close is-large" @click="showSelector = false" aria-label="close"></button>
+    </div>
+
+    <div class="final" v-bind:style="{'background': color}" @click="showSelector = true"></div>
+  </div>
+</template>
+
+<script>
+  import hsl2hex from '@davidmarkclements/hsl-to-hex'
+  
+  export default {
+    name: 'color-picker',
+    props: ['change', 'initial'],
+    data () {
+      return {
+        showSelector: false,
+        h: 265,
+        s: 80,
+        l: 99
+      }
+    },
+    methods: {
+      updateColor: function (event) {
+        this.color = event.color
+      }
+    },
+    computed: {
+      color: function () {
+        let hsl = hsb2hsl(parseFloat(this.h) / 360, parseFloat(this.s) / 100, parseFloat(this.l) / 100)
+
+        let s = hsl2hex(hsl.h, hsl.s, hsl.l)
+        this.change({
+          color: s
+        })
+        return s
+      },
+      colorString: function () {
+        let c = this.h + ', ' + this.s + '%, ' + this.l + '%'
+        return c
+      },
+      gradientH: function () {
+        let stops = []
+        for (let i = 0; i < 7; i++) {
+          let h = i * 60
+
+          let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.s) / 100, parseFloat(this.l / 100))
+
+          let c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+          stops.push('hsl(' + c + ')')
+        }
+
+        return {
+          backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
+        }
+      },
+      gradientS: function () {
+        let stops = []
+        let c
+        let hsl = hsb2hsl(parseFloat(this.h / 360), 0, parseFloat(this.l / 100))
+        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+        stops.push('hsl(' + c + ')')
+
+        hsl = hsb2hsl(parseFloat(this.h / 360), 1, parseFloat(this.l / 100))
+        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+        stops.push('hsl(' + c + ')')
+
+        return {
+          backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
+        }
+      },
+
+      gradientL: function () {
+        let stops = []
+        let c
+
+        let hsl = hsb2hsl(parseFloat(this.h / 360), 0, 0)
+        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+        stops.push('hsl(' + c + ')')
+
+        hsl = hsb2hsl(parseFloat(this.h / 360), parseFloat(this.s / 100), 1)
+
+        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+        stops.push('hsl(' + c + ')')
+
+        return {
+          backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
+
+        }
+      }
+    }
+  }
+
+  function hsb2hsl (h, s, b) {
+    let hsl = {
+      h: h
+    }
+    hsl.l = (2 - s) * b
+    hsl.s = s * b
+
+    if (hsl.l <= 1 && hsl.l > 0) {
+      hsl.s /= hsl.l
+    } else {
+      hsl.s /= 2 - hsl.l
+    }
+
+    hsl.l /= 2
+
+    if (hsl.s > 1) {
+      hsl.s = 1
+    }
+
+    if (!hsl.s > 0) hsl.s = 0
+
+    hsl.h *= 360
+    hsl.s *= 100
+    hsl.l *= 100
+
+    return hsl
+  }
+</script>
+
+<style scoped>
+.final {
+  width: 24px;
+  height: 24px;
+  margin: 0.5rem;
+  border: 4px solid white;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.final:hover {
+  border: 4px solid white;
+  opacity: 0.8;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+}
+
+.color-picker__flyout {
+  width: 200px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.30);
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+
+.color-picker__inner {
+  padding: 1.5rem 1rem;
+}
+
+.color-chip {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 4px 4px 0 0;
+}
+
+.color-chip__inner {
+  text-align: center;
+}
+
+.color-chip__subtitle {
+  margin-top: 0.5rem;
+  opacity: 0.7;
+  font-weight: normal;
+  font-size: 15px;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.color-chip__title {
+  color: white;
+  margin: 0;
+  font-size: 50px;
+  letter-spacing: 4px;
+  font-family: Helvetica Neue;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.control {
+  width: 100%;
+  height: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+.control + .control {
+  margin-top: 1rem;
+}
+
+.control input {
+  width: 100%;
+  margin: 0;
+}
+
+.control input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+}
+
+.control input[type=range]:focus {
+  outline: none;
+}
+
+.control input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+.control input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #ddd;
+  height: 20px;
+  width: 20px;
+  border-radius: 50px;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.12);
+  margin-top: -4px;
+}
+</style>

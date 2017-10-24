@@ -16,8 +16,8 @@
             <b-input v-else-if="(field.type === 'number')"
                      v-model.number="createForm[field.name]" type="number"
             ></b-input>
-            <div v-else-if="(field.type === 'color')">
-            <color-picker  :change="updateColor"></color-picker>
+            <div v-else-if="(field.type === 'color')" class="level">
+              <color-picker :change="updateColor"></color-picker>
               <span>{{ color }}</span>
             </div>
             <b-select v-else-if="field.type === 'select'"
