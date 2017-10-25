@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="row">
+    <div>
       <button class="button" v-on:click="edit" v-if="!create">Add</button>
       <button class="button" v-on:click="save" v-if="create">Save</button>
       <button class="button" v-on:click="cancel" v-if="create">Cancel</button>
     </div>
-    <div v-if="create" class="row">
+    <div v-if="create">
       <div v-bind:key="field.name" v-for="(field, index) in fields">
         <div>
           <div v-if="field.creatable">
@@ -17,7 +17,7 @@
                      v-model.number="createForm[field.name]" type="number"
             ></b-input>
             <div v-else-if="(field.type === 'color')" class="level">
-              <color-picker v-model="color" v-on:change="updateColor"></color-picker>
+              <color-picker v-model="createForm[field.name]"></color-picker>
             </div>
             <b-select v-else-if="field.type === 'select'"
                       v-model="createForm[field.name]">

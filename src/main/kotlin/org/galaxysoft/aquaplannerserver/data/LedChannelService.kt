@@ -16,7 +16,8 @@ import kotlin.coroutines.experimental.buildSequence
 
 @Service
 @Transactional
-class LedChannelService(private val ledChannelRepository: LedChannelRepository) {
+class LedChannelService(private val ledChannelRepository: LedChannelRepository,
+                        private val hslRepository: HslRepository) {
 
   fun findAll(req: ServerRequest) =
     ServerResponse.ok().body(Flux.fromIterable(ledChannelRepository.findAll()))
@@ -30,6 +31,7 @@ class LedChannelService(private val ledChannelRepository: LedChannelRepository) 
 
   fun create(req: ServerRequest) =
     req.bodyToMono(LedChannel::class.java).doOnNext { task ->
+      hslRepository.save(task.color)
       ledChannelRepository.save(task)
     }.then(ServerResponse.ok().body(Mono.empty()))
 
@@ -44,6 +46,7 @@ class LedChannelService(private val ledChannelRepository: LedChannelRepository) 
 
   fun update(req: ServerRequest) =
     req.bodyToMono(LedChannel::class.java).doOnNext { task ->
+      hslRepository.save(task.color)
       ledChannelRepository.save(task)
     }.then(ServerResponse.ok().body(Mono.just(OK())))
 }

@@ -1,23 +1,25 @@
 <template>
   <div>
-    <div class="row" v-cloak>
+    <div class="columns" v-cloak>
       <template v-for="field in tableFields">
-        <div v-if="!field.id" class="col col-md-2" :key="'_' + field.name" :id="'_' + field.name"
+        <div v-if="!field.id" class="column" :key="'_' + field.name" :id="'_' + field.name"
              :class="[field.titleClass]"
              v-html="field['title']"
         ></div>
       </template>
-      <div class="col col-md-2">
+      <div class="column">
         Actions
       </div>
     </div>
 
-    <template v-for="(item, index) in tableData">
-      <row :item="item" :fields="tableFields" :apiUrl="resourceUrl" :deletable="deletable"
+    <template v-for="(item, index) in tableData">      
+      <div :key="item.name" class="column">
+        <row :item="item" :fields="tableFields" :apiUrl="resourceUrl" :deletable="deletable"
            :editable="editable"
            v-on:destroy="destroy"
            v-on:update="update"
       ></row>
+      </div>
     </template>
     <br>
     <create-item-form v-if="creatable" :fields="tableFields" :apiUrl="apiUrl"

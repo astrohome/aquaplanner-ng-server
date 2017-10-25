@@ -31,8 +31,7 @@
       </div>
     </transition>
 
-    <span>{{ value }}</span>
-    <div class="final" v-bind:style="{'background-color': calcColor()}" @click="showSelector = true"></div>
+    <div class="final" v-bind:style="{'background-color': calcColor(), 'cursor': calcPointer()}" @click="show()"></div>
   </div>
 </template>
 
@@ -50,6 +49,14 @@
           }
         },
         type: Object
+      },
+      fieldName: {
+        default: {},
+        type: Object
+      },
+      disabled: {
+        default: false,
+        type: Boolean
       }
     },
     data () {
@@ -58,19 +65,25 @@
       }
     },
     methods: {
-      log () {
-        console.log('test')
+      show () {
+        if (!this.disabled) {
+          this.showSelector = true
+        }
       },
       calcColor () {
         var c = this.value.h + ', ' + this.value.s + '%, ' + this.value.l + '%'
         var s = 'hsl(' + c + ')'
         return s
       },
+      calcPointer () {
+        if (this.disabled) { return 'not-allowed' } else return 'pointer'
+      },
       notify () {
         this.$emit('change', {
           h: parseInt(+this.$refs.hPicker.value),
           s: parseInt(+this.$refs.sPicker.value),
-          l: parseInt(+this.$refs.lPicker.value)
+          l: parseInt(+this.$refs.lPicker.value),
+          fieldName: this.fieldName
         })
       }
     },

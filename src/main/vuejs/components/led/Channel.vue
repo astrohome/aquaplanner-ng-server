@@ -1,15 +1,10 @@
 <template>
-  <div class="container-fluid">
-
-    <div>
       <editable-table-grid :apiUrl="apiUrl"
                            :fields="fields"
                            :editable="editable"
                            :deletable="deletable"
                            :creatable="creatable"
       ></editable-table-grid>
-    </div>
-  </div>
 </template>
 
 <script>

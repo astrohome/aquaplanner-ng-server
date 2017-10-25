@@ -1,11 +1,11 @@
 <template>
-  <div class="row">
+  <div class="columns">
     <template v-for="(field, index) in fields">
-
-      <div v-bind:key="field.id" v-if="(!field.id)">
+      <div class="column" v-bind:key="field.id" v-if="(!field.id)">
         <b-input v-if="(field.type === 'text')" v-model="item[field.name]" type="text" :disabled="!editMode || !field.editable"></b-input>
         <b-input v-else-if="(field.type === 'number')" v-model.number="item[field.name]" type="number" :disabled="!editMode || !field.editable"></b-input>
         <div v-else-if="(field.type === 'color')">
+          <color-picker :fieldName="item" v-on:change="calcColor" :disabled="!editMode || !field.editable"></color-picker>
           <b-input v-model="item['hue']" type="text" :disabled="!editMode || !field.editable"></b-input>
           <b-input v-model="item['saturation']" type="text" :disabled="!editMode || !field.editable"></b-input>
           <b-input v-model="item['lightness']" type="text" :disabled="!editMode || !field.editable"></b-input>
@@ -17,7 +17,7 @@
         </b-select>
       </div>
     </template>
-    <div v-if="editable || deletable">
+    <div class="column" v-if="editable || deletable">
       <button class="button" @click="edit" v-if="!editMode && editable">
         Edit
       </button>
@@ -26,11 +26,11 @@
         Cancel
       </button>
 
-      <button class="button" @click="update(item, editForm)" v-if="editMode && editable">
+      <button class="button is-success" @click="update(item, editForm)" v-if="editMode && editable">
         Update
       </button>
 
-      <button class="button" @click="destroy(item)" v-if="!editMode && deletable">
+      <button class="button is-danger" @click="destroy(item)" v-if="!editMode && deletable">
         Delete
       </button>
     </div>
@@ -40,13 +40,22 @@
 
 <script>
 import axios from 'axios'
+import ColorPicker from '../color/ColorPicker'
 
 export default {
   props: ['item', 'fields', 'apiUrl', 'editable', 'deletable'],
+  components: {
+    'color-picker': ColorPicker
+  },
   data () {
     return {
       editMode: false,
       editForm: {}
+    }
+  },
+  computed: {
+    calcColor: function (val) {
+      console.log(val)
     }
   },
   methods: {

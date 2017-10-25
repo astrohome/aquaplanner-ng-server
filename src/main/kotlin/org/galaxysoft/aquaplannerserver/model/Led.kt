@@ -2,10 +2,7 @@ package org.galaxysoft.aquaplannerserver.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalTime
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table
@@ -23,9 +20,16 @@ data class SelectOption<out ID, out VALUE>(val id: ID, val text: VALUE)
 
 @Entity
 @Table
+data class HSL(@Id @GeneratedValue val id: Int,
+               val hue: Int,
+               val saturation: Int,
+               val lightness: Int)
+
+@Entity
+@Table
 data class LedChannel(@Id @GeneratedValue val id: Int,
                       val name: String,
-                      val hue: Int,
-                      val saturation: Int,
-                      val lightness: Int,
+                      @ManyToOne
+                      @JoinColumn(name = "HSL_id")
+                      val color: HSL,
                       val channel: LedPhysicalChannel)
