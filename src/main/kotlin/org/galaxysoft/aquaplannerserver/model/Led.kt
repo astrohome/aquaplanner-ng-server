@@ -19,11 +19,13 @@ enum class LedPhysicalChannel {
   C1, C2, C3, C4, C5, C6, C7, C8, C9
 }
 
-data class SelectOption<in ID, out VALUE>(val id: String, val text: String)
+data class SelectOption<out ID, out VALUE>(val id: ID, val text: VALUE)
 
 @Entity
 @Table
 data class LedChannel(@Id @GeneratedValue val id: Int,
                       val name: String,
-                      val color: String,
+                      val hue: Int,
+                      val saturation: Int,
+                      val lightness: Int,
                       val channel: LedPhysicalChannel)

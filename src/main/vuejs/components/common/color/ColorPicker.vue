@@ -1,77 +1,91 @@
 <template>
   <div>
-    <div v-if="showSelector" class="modal is-active">
-      <div @click="showSelector = false" class="modal-background"></div>
-      <div class="modal-content">
-        <div class="box level">
-          <article class="media level-item">
-            <div class="color-picker__flyout">
-              <div class="color-chip" v-bind:style="{'background': color}">
-                <div class="color-chip__inner">
+    <transition name="modal">
+      <div v-if="showSelector" class="modal is-active">
+        <div @click="showSelector = false" class="modal-background"></div>
+        <div class="modal-content">
+          <div class="box level">
+            <article class="media level-item">
+              <div class="color-picker__flyout">
+                <div class="color-chip" v-bind:style="{'background-color': calcColor()}">
+                  <div class="color-chip__inner">
+                  </div>
+                </div>
+                <div class="color-picker__inner">
+                  <div class="control" v-bind:style="gradientH" style="background-image: linear-gradient(to right, rgb(253, 50, 50), rgb(253, 253, 50), rgb(50, 253, 50), rgb(50, 253, 253), rgb(50, 50, 253), rgb(253, 50, 253), rgb(253, 50, 50));">
+                    <input type="range" ref="hPicker" v-model="color.h" @change="notify()" min="0" max="360">
+                  </div>
+                  <div class="control" v-bind:style="gradientS" style="background-image: linear-gradient(to right, rgb(253, 253, 253), rgb(0, 97, 253));">
+                    <input type="range" ref="sPicker" v-model="color.s" @change="notify()" min="0" max="100">
+                  </div>
+                  <div class="control" v-bind:style="gradientL" style="background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(51, 129, 255));">
+                    <input type="range" ref="lPicker" v-model="color.l" @change="notify()" min="0" max="100">
+                  </div>
                 </div>
               </div>
-              <div class="color-picker__inner">
-                <div class="control" v-bind:style="gradientH" style="background-image: linear-gradient(to right, rgb(253, 50, 50), rgb(253, 253, 50), rgb(50, 253, 50), rgb(50, 253, 253), rgb(50, 50, 253), rgb(253, 50, 253), rgb(253, 50, 50));">
-                  <input type="range" v-model="h" min="0" max="360">
-                </div>
-                <div class="control" v-bind:style="gradientS" style="background-image: linear-gradient(to right, rgb(253, 253, 253), rgb(0, 97, 253));">
-                  <input type="range" v-model="s" min="0" max="100">
-                </div>
-                <div class="control" v-bind:style="gradientL" style="background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(51, 129, 255));">
-                  <input type="range"  v-model="l" min="0" max="100">
-                </div>
-              </div>
-            </div>
-          </article>
+            </article>
+          </div>
+          <button class="button is-success" @click="showSelector = false">Close</button>
         </div>
-        <button class="button is-success" @click="showSelector = false">Close</button>
+        <button class="modal-close is-large" @click="showSelector = false" aria-label="close"></button>
       </div>
-      <button class="modal-close is-large" @click="showSelector = false" aria-label="close"></button>
-    </div>
+    </transition>
 
-    <div class="final" v-bind:style="{'background': color}" @click="showSelector = true"></div>
+    <span>{{ value }}</span>
+    <div class="final" v-bind:style="{'background-color': calcColor()}" @click="showSelector = true"></div>
   </div>
 </template>
 
+
 <script>
-  import hsl2hex from '@davidmarkclements/hsl-to-hex'
-  
   export default {
     name: 'color-picker',
-    props: ['change', 'initial'],
+    props: {
+      value: {
+        default: () => {
+          return {
+            h: 255,
+            s: 100,
+            l: 50
+          }
+        },
+        type: Object
+      }
+    },
     data () {
       return {
-        showSelector: false,
-        h: 265,
-        s: 80,
-        l: 99
+        showSelector: false
       }
     },
     methods: {
-      updateColor: function (event) {
-        this.color = event.color
+      log () {
+        console.log('test')
+      },
+      calcColor () {
+        var c = this.value.h + ', ' + this.value.s + '%, ' + this.value.l + '%'
+        var s = 'hsl(' + c + ')'
+        return s
+      },
+      notify () {
+        this.$emit('change', {
+          h: parseInt(+this.$refs.hPicker.value),
+          s: parseInt(+this.$refs.sPicker.value),
+          l: parseInt(+this.$refs.lPicker.value)
+        })
       }
     },
     computed: {
-      color: function () {
-        let hsl = hsb2hsl(parseFloat(this.h) / 360, parseFloat(this.s) / 100, parseFloat(this.l) / 100)
-
-        let s = hsl2hex(hsl.h, hsl.s, hsl.l)
-        this.change({
-          color: s
-        })
-        return s
-      },
-      colorString: function () {
-        let c = this.h + ', ' + this.s + '%, ' + this.l + '%'
-        return c
+      color: {
+        get: function (e) {
+          return this.value
+        }
       },
       gradientH: function () {
         let stops = []
         for (let i = 0; i < 7; i++) {
           let h = i * 60
 
-          let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.s) / 100, parseFloat(this.l / 100))
+          let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.value.s) / 100, parseFloat(this.value.l / 100))
 
           let c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
           stops.push('hsl(' + c + ')')
@@ -84,11 +98,11 @@
       gradientS: function () {
         let stops = []
         let c
-        let hsl = hsb2hsl(parseFloat(this.h / 360), 0, parseFloat(this.l / 100))
+        let hsl = hsb2hsl(parseFloat(this.value.h / 360), 0, parseFloat(this.value.l / 100))
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')
 
-        hsl = hsb2hsl(parseFloat(this.h / 360), 1, parseFloat(this.l / 100))
+        hsl = hsb2hsl(parseFloat(this.value.h / 360), 1, parseFloat(this.value.l / 100))
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')
 
@@ -101,11 +115,11 @@
         let stops = []
         let c
 
-        let hsl = hsb2hsl(parseFloat(this.h / 360), 0, 0)
+        let hsl = hsb2hsl(parseFloat(this.value.h / 360), 0, 0)
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')
 
-        hsl = hsb2hsl(parseFloat(this.h / 360), parseFloat(this.s / 100), 1)
+        hsl = hsb2hsl(parseFloat(this.value.h / 360), parseFloat(this.value.s / 100), 1)
 
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')
@@ -250,5 +264,19 @@
   cursor: pointer;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.12);
   margin-top: -4px;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>

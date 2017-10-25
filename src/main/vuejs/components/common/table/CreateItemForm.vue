@@ -8,7 +8,7 @@
     <div v-if="create" class="row">
       <div v-bind:key="field.name" v-for="(field, index) in fields">
         <div>
-          <div class="form-group form-inline" v-if="field.creatable">
+          <div v-if="field.creatable">
             <label :for="field.name">{{ field.title }}</label>
             <b-input v-if="(field.type === 'text')"
                      v-model="createForm[field.name]" type="text"
@@ -17,8 +17,7 @@
                      v-model.number="createForm[field.name]" type="number"
             ></b-input>
             <div v-else-if="(field.type === 'color')" class="level">
-              <color-picker :change="updateColor"></color-picker>
-              <span>{{ color }}</span>
+              <color-picker v-model="color" v-on:change="updateColor"></color-picker>
             </div>
             <b-select v-else-if="field.type === 'select'"
                       v-model="createForm[field.name]">
@@ -53,14 +52,20 @@
     },
     data () {
       return {
-        color: '',
+        color: {
+          h: 255,
+          s: 80,
+          l: 50
+        },
         create: false,
         createForm: { }
       }
     },
     methods: {
-      updateColor (event) {
-        this.color = event.color
+      updateColor (val) {
+        this.createForm['hue'] = val.h
+        this.createForm['saturation'] = val.s
+        this.createForm['lightness'] = val.l
       },
       edit: function () {
         this.create = true

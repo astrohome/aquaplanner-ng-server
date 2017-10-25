@@ -3,18 +3,16 @@
     <template v-for="(field, index) in fields">
 
       <div v-bind:key="field.id" v-if="(!field.id)">
-
-        <b-input v-if="(field.type === 'text')"
-                 v-model="item[field.name]" type="text" :disabled="!editMode || !field.editable"
-        ></b-input>
-        <b-input v-else-if="(field.type === 'number')"
-                 v-model.number="item[field.name]" type="number" :disabled="!editMode || !field.editable"
-        ></b-input>
-        <b-select placeholder="Select a channel" v-else-if="field.type === 'select'"
-                  v-model="item[field.name]" :disabled="!editMode || !field.editable">
-          <option v-for="option in field.options" :key="option.id" :selected="option.id == item[field.name]"
-                  v-bind:value="option.name">
-            {{ option.name }}
+        <b-input v-if="(field.type === 'text')" v-model="item[field.name]" type="text" :disabled="!editMode || !field.editable"></b-input>
+        <b-input v-else-if="(field.type === 'number')" v-model.number="item[field.name]" type="number" :disabled="!editMode || !field.editable"></b-input>
+        <div v-else-if="(field.type === 'color')">
+          <b-input v-model="item['hue']" type="text" :disabled="!editMode || !field.editable"></b-input>
+          <b-input v-model="item['saturation']" type="text" :disabled="!editMode || !field.editable"></b-input>
+          <b-input v-model="item['lightness']" type="text" :disabled="!editMode || !field.editable"></b-input>
+        </div>
+        <b-select v-else-if="field.type === 'select'" v-model="item[field.name]">
+          <option v-for="option in field.options" :key="option[field.keyProp]" :value="option[field.keyProp]" :selected="option[field.keyProp] == item[field.name]">
+            {{ option[field.valueProp] }}
           </option>
         </b-select>
       </div>
@@ -24,26 +22,21 @@
         Edit
       </button>
 
-      <button class="button"
-              @click="cancelEdit" v-if="editMode && editable"
-      >
+      <button class="button" @click="cancelEdit" v-if="editMode && editable">
         Cancel
       </button>
 
-      <button class="button"
-              @click="update(item, editForm)" v-if="editMode && editable"
-      >
+      <button class="button" @click="update(item, editForm)" v-if="editMode && editable">
         Update
       </button>
 
-      <button class="button"
-              @click="destroy(item)" v-if="!editMode && deletable"
-      >
+      <button class="button" @click="destroy(item)" v-if="!editMode && deletable">
         Delete
       </button>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios'

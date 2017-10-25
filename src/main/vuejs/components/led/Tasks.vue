@@ -40,6 +40,8 @@
             type: 'select',
             name: 'channel',
             apiUrl: '/api/channels',
+            keyProp: 'id',
+            valueProp: 'name',
             editable: true,
             creatable: true
           },
