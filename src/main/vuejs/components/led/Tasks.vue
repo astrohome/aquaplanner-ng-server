@@ -1,7 +1,6 @@
 <template>
-  <div class="container-fluid">
-
-    <div>
+  <section class="section">
+    <div class="container">
       <editable-table-grid :apiUrl="apiUrl"
                            :fields="fields"
                            :editable="editable"
@@ -9,7 +8,7 @@
                            :creatable="creatable"
       ></editable-table-grid>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

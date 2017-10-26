@@ -1,11 +1,11 @@
 <template>
-      <editable-table-grid :apiUrl="apiUrl"
-                           :fields="fields"
-                           :editable="editable"
-                           :deletable="deletable"
-                           :creatable="creatable"
-      ></editable-table-grid>
+  <section class="section">
+    <div class="container">
+      <editable-table-grid :apiUrl="apiUrl" :fields="fields" :editable="editable" :deletable="deletable" :creatable="creatable"></editable-table-grid>
+    </div>
+  </section>
 </template>
+
 
 <script>
   import EditableTableGrid from '../common/table/EditableTable.vue'

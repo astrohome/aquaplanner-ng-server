@@ -1,38 +1,33 @@
 <template>
-  <div>
-    <transition name="modal">
-      <div v-if="showSelector" class="modal is-active">
-        <div @click="showSelector = false" class="modal-background"></div>
-        <div class="modal-content">
-          <div class="box level">
-            <article class="media level-item">
-              <div class="color-picker__flyout">
-                <div class="color-chip" v-bind:style="{'background-color': calcColor()}">
-                  <div class="color-chip__inner">
-                  </div>
-                </div>
-                <div class="color-picker__inner">
-                  <div class="control" v-bind:style="gradientH" style="background-image: linear-gradient(to right, rgb(253, 50, 50), rgb(253, 253, 50), rgb(50, 253, 50), rgb(50, 253, 253), rgb(50, 50, 253), rgb(253, 50, 253), rgb(253, 50, 50));">
-                    <input type="range" v-model="value.hue" @change="notify()" min="0" max="360">
-                  </div>
-                  <div class="control" v-bind:style="gradientS" style="background-image: linear-gradient(to right, rgb(253, 253, 253), rgb(0, 97, 253));">
-                    <input type="range" v-model="value.saturation" @change="notify()" min="0" max="100">
-                  </div>
-                  <div class="control" v-bind:style="gradientL" style="background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(51, 129, 255));">
-                    <input type="range" v-model="value.lightness" @change="notify()" min="0" max="100">
-                  </div>
-                </div>
-              </div>
-            </article>
+  <section>
+    <b-modal :active.sync="showSelector" :width="350">
+      <div class="card">
+        <div class="card-content">
+      <div class="color-picker__flyout">
+        <div class="color-chip" v-bind:style="{'background-color': calcColor()}">
+          <div class="color-chip__inner">
           </div>
-          <button class="button is-success" @click="showSelector = false">Close</button>
         </div>
-        <button class="modal-close is-large" @click="showSelector = false" aria-label="close"></button>
+        <div class="color-picker__inner">
+          <div class="control" v-bind:style="gradientH" style="background-image: linear-gradient(to right, rgb(253, 50, 50), rgb(253, 253, 50), rgb(50, 253, 50), rgb(50, 253, 253), rgb(50, 50, 253), rgb(253, 50, 253), rgb(253, 50, 50));">
+            <input type="range" v-model="value.hue" @change="notify()" min="0" max="360">
+          </div>
+          <div class="control" v-bind:style="gradientS" style="background-image: linear-gradient(to right, rgb(253, 253, 253), rgb(0, 97, 253));">
+            <input type="range" v-model="value.saturation" @change="notify()" min="0" max="100">
+          </div>
+          <div class="control" v-bind:style="gradientL" style="background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(51, 129, 255));">
+            <input type="range" v-model="value.lightness" @change="notify()" min="0" max="100">
+          </div>
+        </div>
       </div>
-    </transition>
+      </div>
+      </div>
+      <br>
+      <button class="button is-success" @click="showSelector = false">Close</button>
+    </b-modal>
 
     <div class="final" v-bind:style="{'background-color': calcColor(), 'cursor': calcPointer()}" @click="show()"></div>
-  </div>
+  </section>
 </template>
 
 

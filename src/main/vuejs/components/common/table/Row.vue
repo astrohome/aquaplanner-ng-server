@@ -94,15 +94,25 @@ export default {
       )
     },
     destroy (item) {
-      // send request to delete item
-      axios.delete(this.apiUrl + item.id).then(
-        response => {
-          this.$emit('destroy', item)
-        },
-        response => {
-          alert('Invalid data')
+      this.$dialog.confirm({
+        title: 'Deleting',
+        message: 'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
+        confirmText: 'Delete Account',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => {
+          // send request to delete item
+          axios.delete(this.apiUrl + item.id).then(
+            response => {
+              this.$emit('destroy', item)
+              this.$toast.open('Account deleted!')
+            },
+            response => {
+              alert('Invalid data')
+            }
+          )
         }
-      )
+      })
     }
   }
 }
