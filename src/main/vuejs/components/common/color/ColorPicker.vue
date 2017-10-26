@@ -13,13 +13,13 @@
                 </div>
                 <div class="color-picker__inner">
                   <div class="control" v-bind:style="gradientH" style="background-image: linear-gradient(to right, rgb(253, 50, 50), rgb(253, 253, 50), rgb(50, 253, 50), rgb(50, 253, 253), rgb(50, 50, 253), rgb(253, 50, 253), rgb(253, 50, 50));">
-                    <input type="range" ref="hPicker" v-model="color.h" @change="notify()" min="0" max="360">
+                    <input type="range" v-model="value.hue" @change="notify()" min="0" max="360">
                   </div>
                   <div class="control" v-bind:style="gradientS" style="background-image: linear-gradient(to right, rgb(253, 253, 253), rgb(0, 97, 253));">
-                    <input type="range" ref="sPicker" v-model="color.s" @change="notify()" min="0" max="100">
+                    <input type="range" v-model="value.saturation" @change="notify()" min="0" max="100">
                   </div>
                   <div class="control" v-bind:style="gradientL" style="background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(51, 129, 255));">
-                    <input type="range" ref="lPicker" v-model="color.l" @change="notify()" min="0" max="100">
+                    <input type="range" v-model="value.lightness" @change="notify()" min="0" max="100">
                   </div>
                 </div>
               </div>
@@ -43,15 +43,15 @@
       value: {
         default: () => {
           return {
-            h: 255,
-            s: 100,
-            l: 50
+            hue: 255,
+            saturation: 100,
+            lightness: 50
           }
         },
         type: Object
       },
       fieldName: {
-        default: {},
+        default: () => {},
         type: Object
       },
       disabled: {
@@ -71,7 +71,7 @@
         }
       },
       calcColor () {
-        var c = this.value.h + ', ' + this.value.s + '%, ' + this.value.l + '%'
+        var c = this.value.hue + ', ' + this.value.saturation + '%, ' + this.value.lightness + '%'
         var s = 'hsl(' + c + ')'
         return s
       },
@@ -80,25 +80,18 @@
       },
       notify () {
         this.$emit('change', {
-          h: parseInt(+this.$refs.hPicker.value),
-          s: parseInt(+this.$refs.sPicker.value),
-          l: parseInt(+this.$refs.lPicker.value),
+          value: this.value,
           fieldName: this.fieldName
         })
       }
     },
     computed: {
-      color: {
-        get: function (e) {
-          return this.value
-        }
-      },
       gradientH: function () {
         let stops = []
         for (let i = 0; i < 7; i++) {
           let h = i * 60
 
-          let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.value.s) / 100, parseFloat(this.value.l / 100))
+          let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.value.saturation) / 100, parseFloat(this.value.lightness / 100))
 
           let c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
           stops.push('hsl(' + c + ')')
@@ -111,11 +104,11 @@
       gradientS: function () {
         let stops = []
         let c
-        let hsl = hsb2hsl(parseFloat(this.value.h / 360), 0, parseFloat(this.value.l / 100))
+        let hsl = hsb2hsl(parseFloat(this.value.hue / 360), 0, parseFloat(this.value.lightness / 100))
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')
 
-        hsl = hsb2hsl(parseFloat(this.value.h / 360), 1, parseFloat(this.value.l / 100))
+        hsl = hsb2hsl(parseFloat(this.value.hue / 360), 1, parseFloat(this.value.lightness / 100))
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')
 
@@ -128,11 +121,11 @@
         let stops = []
         let c
 
-        let hsl = hsb2hsl(parseFloat(this.value.h / 360), 0, 0)
+        let hsl = hsb2hsl(parseFloat(this.value.hue / 360), 0, 0)
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')
 
-        hsl = hsb2hsl(parseFloat(this.value.h / 360), parseFloat(this.value.s / 100), 1)
+        hsl = hsb2hsl(parseFloat(this.value.hue / 360), parseFloat(this.value.saturation / 100), 1)
 
         c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
         stops.push('hsl(' + c + ')')

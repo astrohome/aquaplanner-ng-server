@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div>
-      <button class="button" v-on:click="edit" v-if="!create">Add</button>
-      <button class="button" v-on:click="save" v-if="create">Save</button>
-      <button class="button" v-on:click="cancel" v-if="create">Cancel</button>
-    </div>
     <div v-if="create">
       <div v-bind:key="field.name" v-for="(field, index) in fields">
         <div>
@@ -16,7 +11,7 @@
             <b-input v-else-if="(field.type === 'number')"
                      v-model.number="createForm[field.name]" type="number"
             ></b-input>
-            <div v-else-if="(field.type === 'color')" class="level">
+            <div v-else-if="(field.type === 'color')">
               <color-picker v-model="createForm[field.name]"></color-picker>
             </div>
             <b-select v-else-if="field.type === 'select'"
@@ -29,12 +24,23 @@
         </div>
       </div>
     </div>
+    <div>
+      <button class="button" v-on:click="edit" v-if="!create">Add</button>
+      <button class="button" v-on:click="save" v-if="create">Save</button>
+      <button class="button" v-on:click="cancel" v-if="create">Cancel</button>
+    </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
   import ColorPicker from '../color/ColorPicker'
+
+  const color = {
+    hue: 168,
+    saturation: 100,
+    lightness: 50
+  }
 
   export default {
     components: {
@@ -52,21 +58,13 @@
     },
     data () {
       return {
-        color: {
-          h: 255,
-          s: 80,
-          l: 50
-        },
         create: false,
-        createForm: { }
+        createForm: {
+          color
+        }
       }
     },
     methods: {
-      updateColor (val) {
-        this.createForm['hue'] = val.h
-        this.createForm['saturation'] = val.s
-        this.createForm['lightness'] = val.l
-      },
       edit: function () {
         this.create = true
       },
@@ -86,7 +84,9 @@
       },
       cancel: function () {
         this.create = false
-        this.createForm = {}
+        this.createForm = {
+          color
+        }
       }
     }
   }

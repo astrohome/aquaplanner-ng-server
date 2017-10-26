@@ -1,6 +1,8 @@
 package org.galaxysoft.aquaplannerserver.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalTime
 import javax.persistence.*
 
@@ -30,6 +32,7 @@ data class HSL(@Id @GeneratedValue val id: Int,
 data class LedChannel(@Id @GeneratedValue val id: Int,
                       val name: String,
                       @ManyToOne
+                      @OnDelete(action = OnDeleteAction.CASCADE)
                       @JoinColumn(name = "HSL_id")
                       val color: HSL,
                       val channel: LedPhysicalChannel)
