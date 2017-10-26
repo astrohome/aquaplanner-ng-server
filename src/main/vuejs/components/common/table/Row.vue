@@ -19,19 +19,23 @@
     </template>
     <div class="column" v-if="editable || deletable">
       <button class="button" @click="edit" v-if="!editMode && editable">
-        Edit
+        <b-icon icon="edit"></b-icon>
+        <span>Edit</span>
       </button>
 
       <button class="button" @click="cancelEdit" v-if="editMode && editable">
-        Cancel
+        <b-icon icon="cancel"></b-icon>
+        <span>Cancel</span>
       </button>
 
       <button class="button is-success" @click="update(item, editForm)" v-if="editMode && editable">
-        Update
+        <b-icon icon="save"></b-icon>
+        <span>Save</span>
       </button>
 
       <button class="button is-danger" @click="destroy(item)" v-if="!editMode && deletable">
-        Delete
+        <b-icon icon="delete"></b-icon>
+        <span>Delete</span>
       </button>
     </div>
   </div>
