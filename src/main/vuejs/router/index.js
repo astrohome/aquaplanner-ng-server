@@ -1,22 +1,34 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Tasks from '../components/led/Tasks.vue'
-import Channel from '../components/led/Channel.vue'
+import LedTasks from '../components/led/Tasks.vue'
+import LedSettings from '../components/led/Channel.vue'
+import PeripheralSettings from '../components/peripheral/Settings.vue'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  linkActiveClass: 'is-active',
   routes: [
     {
-      path: '/led/tasks',
-      name: 'Tasks',
-      component: Tasks
+      path: '/led/scheduling',
+      name: 'led-scheduling',
+      component: LedTasks
     },
     {
-      path: '/led/channels',
-      name: 'Channel',
-      component: Channel
+      path: '/led/settings',
+      name: 'led-settings',
+      component: LedSettings
+    },
+    {
+      path: '/peripheral/settings',
+      name: 'peripheral-settings',
+      component: PeripheralSettings
+    },
+    {
+      path: '/peripheral/scheduling',
+      name: 'peripheral-scheduling',
+      component: PeripheralSettings
     }
   ]
 })

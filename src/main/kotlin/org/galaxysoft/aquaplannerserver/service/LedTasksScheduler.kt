@@ -1,6 +1,6 @@
 package org.galaxysoft.aquaplannerserver.service
 
-import org.galaxysoft.aquaplannerserver.data.LedTaskRepository
+import org.galaxysoft.aquaplannerserver.data.led.LedTaskRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

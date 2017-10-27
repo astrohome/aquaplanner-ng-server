@@ -1,6 +1,6 @@
 package org.galaxysoft.aquaplannerserver.web
 
-import org.galaxysoft.aquaplannerserver.data.LedTaskService
+import org.galaxysoft.aquaplannerserver.data.led.LedTaskService
 import org.galaxysoft.aquaplannerserver.service.LedTasksScheduler
 import org.springframework.context.support.beans
 import org.springframework.web.reactive.function.server.HandlerStrategies

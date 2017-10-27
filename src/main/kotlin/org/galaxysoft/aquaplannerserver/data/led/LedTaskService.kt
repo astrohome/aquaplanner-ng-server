@@ -1,4 +1,4 @@
-package org.galaxysoft.aquaplannerserver.data
+package org.galaxysoft.aquaplannerserver.data.led
 
 import org.galaxysoft.aquaplannerserver.model.LedTask
 import org.galaxysoft.aquaplannerserver.web.OK

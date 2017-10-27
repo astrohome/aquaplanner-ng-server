@@ -1,4 +1,4 @@
-package org.galaxysoft.aquaplannerserver.data
+package org.galaxysoft.aquaplannerserver.data.led
 
 import org.galaxysoft.aquaplannerserver.model.LedChannel
 import org.galaxysoft.aquaplannerserver.model.LedPhysicalChannel

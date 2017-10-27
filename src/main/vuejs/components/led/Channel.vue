@@ -27,7 +27,7 @@
             type: 'select',
             name: 'channel',
             options: [],
-            apiUrl: '/api/physical-channels',
+            apiUrl: '/api/led/physical-channels',
             keyProp: 'id',
             valueProp: 'text',
             editable: true,

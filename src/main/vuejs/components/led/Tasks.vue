@@ -21,7 +21,7 @@
     },
     data () {
       return {
-        apiUrl: '/api/tasks',
+        apiUrl: '/api/led/tasks',
         editable: true, // items could be modified
         creatable: true, // items could be created
         deletable: true, // items could be deleted
@@ -38,7 +38,7 @@
             title: 'Channel',
             type: 'select',
             name: 'channel',
-            apiUrl: '/api/channels',
+            apiUrl: '/api/led/channels',
             keyProp: 'channel',
             valueProp: 'name',
             editable: true,

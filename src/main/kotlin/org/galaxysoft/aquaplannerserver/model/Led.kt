@@ -18,8 +18,6 @@ enum class LedPhysicalChannel {
   C1, C2, C3, C4, C5, C6, C7, C8, C9
 }
 
-data class SelectOption<out ID, out VALUE>(val id: ID, val text: VALUE)
-
 @Entity
 @Table
 data class HSL(@Id @GeneratedValue val id: Int,

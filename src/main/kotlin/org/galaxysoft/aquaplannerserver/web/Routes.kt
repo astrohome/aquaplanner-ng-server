@@ -1,7 +1,7 @@
 package org.galaxysoft.aquaplannerserver.web
 
-import org.galaxysoft.aquaplannerserver.data.LedChannelService
-import org.galaxysoft.aquaplannerserver.data.LedTaskService
+import org.galaxysoft.aquaplannerserver.data.led.LedChannelService
+import org.galaxysoft.aquaplannerserver.data.led.LedTaskService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
@@ -17,22 +17,27 @@ class Routes(val ledTaskService: LedTaskService,
 
   @Bean
   fun router() = router {
-    accept(APPLICATION_JSON).nest {
-      GET("/api/ok", { ok().body(Mono.just(OK("OK"))) })
-      GET("/api/tasks", ledTaskService::findAll)
-      GET("/api/tasks/{id}", ledTaskService::findById)
-      DELETE("/api/tasks/{id}", ledTaskService::deleteById)
-      POST("/api/tasks", ledTaskService::create)
-      PATCH("/api/tasks/{id}", ledTaskService::update)
+    "/api".nest {
+      accept(APPLICATION_JSON).nest {
+        GET("/ok", { ok().body(Mono.just(OK("OK"))) })
+        "/led".nest {
+          GET("/tasks", ledTaskService::findAll)
+          GET("/tasks/{id}", ledTaskService::findById)
+          DELETE("/tasks/{id}", ledTaskService::deleteById)
+          POST("/tasks", ledTaskService::create)
+          PATCH("/tasks/{id}", ledTaskService::update)
 
-      GET("/api/physical-channels", ledChannelService::getAllPhysicalChannels)
-      GET("/api/channels", ledChannelService::findAll)
-      GET("/api/channels/{id}", ledChannelService::findById)
-      DELETE("/api/channels/{id}", ledChannelService::deleteById)
-      POST("/api/channels", ledChannelService::create)
-      PATCH("/api/channels/{id}", ledChannelService::update)
+
+          GET("/physical-channels", ledChannelService::getAllPhysicalChannels)
+          GET("/channels", ledChannelService::findAll)
+          GET("/channels/{id}", ledChannelService::findById)
+          DELETE("/channels/{id}", ledChannelService::deleteById)
+          POST("/channels", ledChannelService::create)
+          PATCH("/channels/{id}", ledChannelService::update)
+        }
+      }
     }
-    resources("/**", ClassPathResource("static/"))
+    //resources("/**", ClassPathResource("static/"))
   }
 
 }
