@@ -46,8 +46,8 @@
         type: Object
       },
       fieldName: {
-        default: () => {},
-        type: Object
+        default: 'color',
+        type: String
       },
       disabled: {
         default: false,

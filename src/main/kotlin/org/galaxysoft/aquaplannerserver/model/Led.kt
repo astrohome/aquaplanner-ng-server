@@ -29,10 +29,9 @@ data class HSL(@Id @GeneratedValue val id: Int,
 
 @Entity
 @Table
-data class LedChannel(@Id @GeneratedValue val id: Int,
+data class LedChannel(@Id val channel: LedPhysicalChannel,
                       val name: String,
                       @ManyToOne
                       @OnDelete(action = OnDeleteAction.CASCADE)
                       @JoinColumn(name = "HSL_id")
-                      val color: HSL,
-                      val channel: LedPhysicalChannel)
+                      val color: HSL)

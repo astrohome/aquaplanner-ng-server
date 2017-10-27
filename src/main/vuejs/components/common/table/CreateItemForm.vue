@@ -16,7 +16,7 @@
             </div>
             <b-select v-else-if="field.type === 'select'"
                       v-model="createForm[field.name]">
-              <option v-for="option in field.options" :key="option[field.keyProp]" :value="option[field.keyProp]" :selected="option[field.keyProp] == createForm[field.name]">
+              <option v-for="option in field.options" :key="option[field.keyProp]" :value="option[field.keyProp]">
                 {{ option[field.valueProp] }}
               </option>
             </b-select>

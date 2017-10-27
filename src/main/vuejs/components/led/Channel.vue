@@ -23,12 +23,15 @@
         deletable: true, // items could be deleted
         fields: [
           {
-            title: 'ID',
-            type: 'number',
-            name: 'id',
-            id: true,
-            editable: false,
-            creatable: false
+            title: 'Channel',
+            type: 'select',
+            name: 'channel',
+            options: [],
+            apiUrl: '/api/physical-channels',
+            keyProp: 'id',
+            valueProp: 'text',
+            editable: true,
+            creatable: true
           },
           {
             title: 'Color',
@@ -41,16 +44,6 @@
             title: 'Name',
             type: 'text',
             name: 'name',
-            editable: true,
-            creatable: true
-          },
-          {
-            title: 'Channel',
-            type: 'select',
-            name: 'channel',
-            apiUrl: '/api/physical-channels',
-            keyProp: 'id',
-            valueProp: 'text',
             editable: true,
             creatable: true
           }

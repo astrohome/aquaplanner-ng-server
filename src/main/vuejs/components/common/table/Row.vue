@@ -1,17 +1,14 @@
 <template>
   <div class="columns">
     <template v-for="(field, index) in fields">
-      <div class="column" v-bind:key="field.id" v-if="(!field.id)">
+      <div class="column" v-bind:key="field.name" v-if="(!field.id)">
         <b-input v-if="(field.type === 'text')" v-model="item[field.name]" type="text" :disabled="!editMode || !field.editable"></b-input>
         <b-input v-else-if="(field.type === 'number')" v-model.number="item[field.name]" type="number" :disabled="!editMode || !field.editable"></b-input>
         <div v-else-if="(field.type === 'color')">
-          <color-picker v-model="item[field.name]" :fieldName="field.name" v-on:change="calcColor" :disabled="!editMode || !field.editable"></color-picker>
-          <b-input v-model="item.color.hue" type="text" :disabled="!editMode || !field.editable"></b-input>
-          <b-input v-model="item.color.saturation" type="text" :disabled="!editMode || !field.editable"></b-input>
-          <b-input v-model="item.color.lightness" type="text" :disabled="!editMode || !field.editable"></b-input>
+          <color-picker v-model="item[field.name]" :fieldName="field.name" :disabled="!editMode || !field.editable"></color-picker>
         </div>
         <b-select v-else-if="field.type === 'select'" v-model="item[field.name]" :disabled="!editMode || !field.editable">
-          <option v-for="option in field.options" :key="option[field.keyProp]" :value="option[field.keyProp]" :selected="option[field.keyProp] == item[field.name]">
+          <option v-for="option in field.options" :key="option[field.keyProp]" :value="option[field.keyProp]">
             {{ option[field.valueProp] }}
           </option>
         </b-select>
@@ -55,11 +52,6 @@ export default {
     return {
       editMode: false,
       editForm: {}
-    }
-  },
-  computed: {
-    calcColor: function (val) {
-      console.log(val)
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="columns" v-cloak>
-      <template v-for="field in tableFields">
+      <template v-for="field in fields">
         <div v-if="!field.id" class="column" :key="'_' + field.name" :id="'_' + field.name"
              :class="[field.titleClass]"
              v-html="field['title']"
@@ -13,8 +13,8 @@
     </div>
 
     <template v-for="(item, index) in tableData">      
-      <div :key="item.name" class="column">
-        <row :item="item" :fields="tableFields" :apiUrl="resourceUrl" :deletable="deletable"
+      <div :key="item.id" class="column">
+        <row :item="item" :fields="fields" :apiUrl="resourceUrl" :deletable="deletable"
            :editable="editable"
            v-on:destroy="destroy"
            v-on:update="update"
@@ -22,7 +22,7 @@
       </div>
     </template>
     <br>
-    <create-item-form v-if="creatable" :fields="tableFields" :apiUrl="apiUrl"
+    <create-item-form v-if="creatable" :fields="fields" :apiUrl="apiUrl"
                       v-on:save="save"></create-item-form>
   </div>
 </template>
@@ -68,14 +68,11 @@
     },
     data () {
       return {
-        tableFields: [],
         tableData: [],
         resourceUrl: ''
       }
     },
-    mounted () {
-      // get unified fields
-      this.normalizeFields()
+    beforeMount () {
       // get unified api url
       this.normalizeUrl()
       // load data
@@ -90,47 +87,8 @@
         this.resourceUrl = this.apiUrl.trim('/')
         this.resourceUrl = this.apiUrl + '/'
       },
-      normalizeFields () {
-        this.tableFields = []
-        // check fields
-        if (typeof this.fields === 'undefined') {
-          console.error('You need to provide "fields" prop.')
-          return
-        }
-        let self = this
-        // let obj
-        // normilize to one style
-        this.fields.forEach(function (field, i) {
-          /* if (typeof field === 'string') {
-            obj = {
-              name: field,
-              title: field,
-              type: field,
-              titleClass: '',
-              id: false,
-              options: [],
-              apiUrl: '',
-              editable: true,
-              creatable: true
-            }
-          } else {
-            obj = {
-              name: field.name,
-              title: field.title === undefined ? field.name : field.title,
-              titleClass: field.titleClass === undefined ? '' : field.titleClass,
-              type: field.type === undefined ? 'text' : field.type,
-              apiUrl: field.apiUrl,
-              id: field.id === undefined ? false : field.id,
-              options: field.options === undefined ? [] : field.options,
-              editable: field.editable === undefined ? true : field.editable,
-              creatable: field.creatable === undefined ? true : field.creatable
-            }
-          } */
-          self.tableFields.push(field)
-        })
-      },
       loadData (success = this.loadSuccess, failed = this.loadFailed) {
-        this.tableFields.forEach((field) => {
+        this.fields.forEach((field) => {
           if (field.apiUrl !== undefined) {
             axios.get(field.apiUrl).then((result) => {
               field.options = result.data
@@ -156,8 +114,7 @@
         this.tableData[index] = item
       },
       save: function (item) {
-        // add a new item to the collection
-        this.tableData.push(item)
+        this.loadData()
       }
     }
   }
