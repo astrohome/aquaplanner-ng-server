@@ -7,7 +7,10 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface LedTaskRepository : CrudRepository<LedTask, Int>
+interface LedTaskRepository : CrudRepository<LedTask, Int> {
+  fun findAllByOrderByAtTimeAsc(): List<LedTask>
+  fun findAllByOrderByAtTimeDesc(): List<LedTask>
+}
 
 @Repository
 interface LedChannelRepository : CrudRepository<LedChannel, Int>

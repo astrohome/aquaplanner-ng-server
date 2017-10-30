@@ -12,6 +12,10 @@
       </button>
     </div>
     <div class="navbar-menu">
+          <router-link :to="{name: 'dashboard'}" class="navbar-item is-hoverable">
+            <b-icon icon="dashboard"></b-icon>
+            <span>Dashboard</span>
+          </router-link>
       <div class="navbar-item has-dropdown is-hoverable">
         <div class="navbar-link">LED</div>
         <div class="navbar-dropdown">

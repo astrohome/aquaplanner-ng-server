@@ -1,9 +1,17 @@
 package org.galaxysoft.aquaplannerserver
 
-class TimeUtilsTests {
-/*
-    private lateinit var tasks: List<LedTask>
+import org.galaxysoft.aquaplannerserver.model.LedTask
+import org.galaxysoft.aquaplannerserver.util.TimeUtils
+import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.function.Executable
+import java.time.LocalTime
 
+class TimeUtilsTests {
+
+    private lateinit var tasks: List<LedTask>
+/*
     @Before
     fun setup() {
         tasks = listOf(
@@ -18,7 +26,7 @@ class TimeUtilsTests {
                 LedTask(5, LedPhysicalChannel.C1, 10, 70, LocalTime.of(23, 0), LocalTime.of(5, 20)),
                 LedTask(6, LedPhysicalChannel.C1, 10, 70, LocalTime.of(21, 0), LocalTime.of(21, 5))
         )
-    }
+    }*/
 
     @Test
     fun testBetween() {
@@ -28,7 +36,7 @@ class TimeUtilsTests {
                 Executable { assertEquals(120, TimeUtils.between(LocalTime.of(23, 0), LocalTime.of(1, 0))) }
         )
     }
-
+/*
     private fun filterTasks(it: LedTask, now: LocalTime): Boolean {
         return TimeUtils.isInInterval(it.startTime, it.endTime, now)
     }

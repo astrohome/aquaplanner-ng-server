@@ -31,59 +31,59 @@
 </template>
 
 <script>
-export default {
-  name: 'color-picker',
-  props: {
-    value: {
-      default: () => {
-        return {
-          hue: 255,
-          saturation: 100,
-          lightness: 50
-        }
+  export default {
+    name: 'color-picker',
+    props: {
+      value: {
+        default: () => {
+          return {
+            hue: 255,
+            saturation: 100,
+            lightness: 50
+          }
+        },
+        type: Object
       },
-      type: Object
-    },
-    fieldName: {
-      default: 'color',
-      type: String
-    },
-    disabled: {
-      default: false,
-      type: Boolean
-    }
-  },
-  data () {
-    return {
-      showSelector: false
-    }
-  },
-  methods: {
-    show () {
-      if (!this.disabled) {
-        this.showSelector = true
+      fieldName: {
+        default: 'color',
+        type: String
+      },
+      disabled: {
+        default: false,
+        type: Boolean
       }
     },
-    calcColor () {
-      var c = this.value.hue + ', ' + this.value.saturation + '%, ' + this.value.lightness + '%'
-      var s = 'hsl(' + c + ')'
-      return s
+    data () {
+      return {
+        showSelector: false
+      }
     },
-    calcPointer () {
-      if (this.disabled) { return 'not-allowed' } else return 'pointer'
+    methods: {
+      show () {
+        if (!this.disabled) {
+          this.showSelector = true
+        }
+      },
+      calcColor () {
+        let c = this.value.hue + ', ' + this.value.saturation + '%, ' + this.value.lightness + '%'
+        let s = 'hsl(' + c + ')'
+        return s
+      },
+      calcPointer () {
+        if (this.disabled) { return 'not-allowed' } else return 'pointer'
+      },
+      notify () {
+        this.$emit('change', {
+          value: this.value,
+          fieldName: this.fieldName
+        })
+      }
     },
-    notify () {
-      this.$emit('change', {
-        value: this.value,
-        fieldName: this.fieldName
-      })
-    }
-  },
-  computed: {
-    gradientH: function () {
-      let stops = []
-      for (let i = 0; i < 7; i++) {
-        let h = i * 60
+    computed: {
+      gradientH: function () {
+        let stops = []
+        for (let i = 0; i < 7; i++) {
+          let h = i * 60
 
         let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.value.saturation) / 100, parseFloat(this.value.lightness / 100))
 
