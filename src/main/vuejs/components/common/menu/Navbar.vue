@@ -43,9 +43,8 @@
   </nav>
 </template>
 
-
 <script>
-  export default {
-    name: 'top-navbar'
-  }
+export default {
+  name: 'top-navbar'
+}
 </script>

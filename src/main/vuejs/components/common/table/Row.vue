@@ -38,7 +38,6 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios'
 import ColorPicker from '../color/ColorPicker'
@@ -60,7 +59,7 @@ export default {
       let self = this
 
       // get fields for the form
-      this.fields.forEach(function (field, i) {
+      this.fields.forEach(function (field) {
         self.editForm[field.name] = self.item[field.name]
       })
     },
@@ -68,7 +67,7 @@ export default {
       this.editMode = false
       let self = this
       // clear the form
-      this.fields.forEach(function (field, i) {
+      this.fields.forEach(function (field) {
         self.editForm[field.name] = ''
       })
     },
@@ -80,7 +79,7 @@ export default {
           this.$emit('update', response.data)
           this.cancelEdit()
         },
-        response => {
+        () => {
           alert('Invalid data')
         }
       )
@@ -95,11 +94,11 @@ export default {
         onConfirm: () => {
           // send request to delete item
           axios.delete(this.apiUrl + item.id).then(
-            response => {
+            () => {
               this.$emit('destroy', item)
               this.$toast.open('Account deleted!')
             },
-            response => {
+            () => {
               alert('Invalid data')
             }
           )

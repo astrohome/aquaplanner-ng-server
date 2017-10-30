@@ -33,61 +33,61 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import ColorPicker from '../color/ColorPicker'
+import axios from 'axios'
+import ColorPicker from '../color/ColorPicker'
 
-  const color = {
-    hue: 168,
-    saturation: 100,
-    lightness: 50
-  }
+const color = {
+  hue: 168,
+  saturation: 100,
+  lightness: 50
+}
 
-  export default {
-    components: {
-      'color-picker': ColorPicker
+export default {
+  components: {
+    'color-picker': ColorPicker
+  },
+  props: {
+    fields: {
+      type: Array,
+      required: true
     },
-    props: {
-      fields: {
-        type: Array,
-        required: true
-      },
-      apiUrl: {
-        type: String,
-        required: true
+    apiUrl: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      create: false,
+      createForm: {
+        color
       }
+    }
+  },
+  methods: {
+    edit: function () {
+      this.create = true
     },
-    data () {
-      return {
-        create: false,
-        createForm: {
-          color
+    save: function () {
+      // send required to store a new item
+      axios.post(this.apiUrl, this.createForm).then(
+        response => {
+          // trigger event to collection
+          this.$emit('save', response.data)
+          // clear form
+          this.cancel()
+        },
+        () => {
+          alert('Invalid data')
         }
-      }
+      )
     },
-    methods: {
-      edit: function () {
-        this.create = true
-      },
-      save: function () {
-        // send required to store a new item
-        axios.post(this.apiUrl, this.createForm).then(
-          response => {
-            // trigger event to collection
-            this.$emit('save', response.data)
-            // clear form
-            this.cancel()
-          },
-          () => {
-            alert('Invalid data')
-          }
-        )
-      },
-      cancel: function () {
-        this.create = false
-        this.createForm = {
-          color
-        }
+    cancel: function () {
+      this.create = false
+      this.createForm = {
+        color
       }
     }
   }
+}
 </script>

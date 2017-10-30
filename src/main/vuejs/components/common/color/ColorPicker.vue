@@ -30,136 +30,135 @@
   </section>
 </template>
 
-
 <script>
-  export default {
-    name: 'color-picker',
-    props: {
-      value: {
-        default: () => {
-          return {
-            hue: 255,
-            saturation: 100,
-            lightness: 50
-          }
-        },
-        type: Object
+export default {
+  name: 'color-picker',
+  props: {
+    value: {
+      default: () => {
+        return {
+          hue: 255,
+          saturation: 100,
+          lightness: 50
+        }
       },
-      fieldName: {
-        default: 'color',
-        type: String
-      },
-      disabled: {
-        default: false,
-        type: Boolean
+      type: Object
+    },
+    fieldName: {
+      default: 'color',
+      type: String
+    },
+    disabled: {
+      default: false,
+      type: Boolean
+    }
+  },
+  data () {
+    return {
+      showSelector: false
+    }
+  },
+  methods: {
+    show () {
+      if (!this.disabled) {
+        this.showSelector = true
       }
     },
-    data () {
+    calcColor () {
+      var c = this.value.hue + ', ' + this.value.saturation + '%, ' + this.value.lightness + '%'
+      var s = 'hsl(' + c + ')'
+      return s
+    },
+    calcPointer () {
+      if (this.disabled) { return 'not-allowed' } else return 'pointer'
+    },
+    notify () {
+      this.$emit('change', {
+        value: this.value,
+        fieldName: this.fieldName
+      })
+    }
+  },
+  computed: {
+    gradientH: function () {
+      let stops = []
+      for (let i = 0; i < 7; i++) {
+        let h = i * 60
+
+        let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.value.saturation) / 100, parseFloat(this.value.lightness / 100))
+
+        let c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+        stops.push('hsl(' + c + ')')
+      }
+
       return {
-        showSelector: false
+        backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
       }
     },
-    methods: {
-      show () {
-        if (!this.disabled) {
-          this.showSelector = true
-        }
-      },
-      calcColor () {
-        var c = this.value.hue + ', ' + this.value.saturation + '%, ' + this.value.lightness + '%'
-        var s = 'hsl(' + c + ')'
-        return s
-      },
-      calcPointer () {
-        if (this.disabled) { return 'not-allowed' } else return 'pointer'
-      },
-      notify () {
-        this.$emit('change', {
-          value: this.value,
-          fieldName: this.fieldName
-        })
+    gradientS: function () {
+      let stops = []
+      let c
+      let hsl = hsb2hsl(parseFloat(this.value.hue / 360), 0, parseFloat(this.value.lightness / 100))
+      c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+      stops.push('hsl(' + c + ')')
+
+      hsl = hsb2hsl(parseFloat(this.value.hue / 360), 1, parseFloat(this.value.lightness / 100))
+      c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+      stops.push('hsl(' + c + ')')
+
+      return {
+        backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
       }
     },
-    computed: {
-      gradientH: function () {
-        let stops = []
-        for (let i = 0; i < 7; i++) {
-          let h = i * 60
 
-          let hsl = hsb2hsl(parseFloat(h / 360), parseFloat(this.value.saturation) / 100, parseFloat(this.value.lightness / 100))
+    gradientL: function () {
+      let stops = []
+      let c
 
-          let c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
-          stops.push('hsl(' + c + ')')
-        }
+      let hsl = hsb2hsl(parseFloat(this.value.hue / 360), 0, 0)
+      c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+      stops.push('hsl(' + c + ')')
 
-        return {
-          backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
-        }
-      },
-      gradientS: function () {
-        let stops = []
-        let c
-        let hsl = hsb2hsl(parseFloat(this.value.hue / 360), 0, parseFloat(this.value.lightness / 100))
-        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
-        stops.push('hsl(' + c + ')')
+      hsl = hsb2hsl(parseFloat(this.value.hue / 360), parseFloat(this.value.saturation / 100), 1)
 
-        hsl = hsb2hsl(parseFloat(this.value.hue / 360), 1, parseFloat(this.value.lightness / 100))
-        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
-        stops.push('hsl(' + c + ')')
+      c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
+      stops.push('hsl(' + c + ')')
 
-        return {
-          backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
-        }
-      },
+      return {
+        backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
 
-      gradientL: function () {
-        let stops = []
-        let c
-
-        let hsl = hsb2hsl(parseFloat(this.value.hue / 360), 0, 0)
-        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
-        stops.push('hsl(' + c + ')')
-
-        hsl = hsb2hsl(parseFloat(this.value.hue / 360), parseFloat(this.value.saturation / 100), 1)
-
-        c = hsl.h + ', ' + hsl.s + '%, ' + hsl.l + '%'
-        stops.push('hsl(' + c + ')')
-
-        return {
-          backgroundImage: 'linear-gradient(to right, ' + stops.join(', ') + ')'
-
-        }
       }
     }
   }
+}
 
-  function hsb2hsl (h, s, b) {
-    let hsl = {
-      h: h
-    }
-    hsl.l = (2 - s) * b
-    hsl.s = s * b
-
-    if (hsl.l <= 1 && hsl.l > 0) {
-      hsl.s /= hsl.l
-    } else {
-      hsl.s /= 2 - hsl.l
-    }
-
-    hsl.l /= 2
-
-    if (hsl.s > 1) {
-      hsl.s = 1
-    }
-
-    if (!hsl.s > 0) hsl.s = 0
-
-    hsl.h *= 360
-    hsl.s *= 100
-    hsl.l *= 100
-
-    return hsl
+function hsb2hsl (h, s, b) {
+  let hsl = {
+    h: h
   }
+  hsl.l = (2 - s) * b
+  hsl.s = s * b
+
+  if (hsl.l <= 1 && hsl.l > 0) {
+    hsl.s /= hsl.l
+  } else {
+    hsl.s /= 2 - hsl.l
+  }
+
+  hsl.l /= 2
+
+  if (hsl.s > 1) {
+    hsl.s = 1
+  }
+
+  if (!hsl.s > 0) hsl.s = 0
+
+  hsl.h *= 360
+  hsl.s *= 100
+  hsl.l *= 100
+
+  return hsl
+}
 </script>
 
 <style scoped>
